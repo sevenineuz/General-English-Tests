@@ -791,12 +791,12 @@ select.field-input { cursor: pointer; }
 <button class="level-btn" id="lvbtn-a1" onclick="switchLevel('a1')"><span class="level-code" style="background:#FF9500;">A1</span>Beginner</button>
 <button class="level-btn" id="lvbtn-a2" onclick="switchLevel('a2')"><span class="level-code" style="background:#34C759;">A2</span>Elementary</button>
 <button class="level-btn" id="lvbtn-b1" onclick="switchLevel('b1')"><span class="level-code" style="background:#007AFF;">B1</span>Pre-Intermediate</button>
-<button class="level-btn" id="lvbtn-b2" onclick="switchLevel('b2')"><span class="level-code" style="background:#AF52DE;">B2</span>Intermediate</button>
-<button class="level-btn" id="lvbtn-c1" onclick="switchLevel('c1')"><span class="level-code" style="background:#FF3B30;">B2+</span>Upper-Intermediate</button>
+<button class="level-btn" id="lvbtn-b1plus" onclick="switchLevel('b1plus')"><span class="level-code" style="background:#AF52DE;">B1+</span>Intermediate</button>
+<button class="level-btn" id="lvbtn-b2" onclick="switchLevel('b2')"><span class="level-code" style="background:#FF3B30;">B2</span>Upper-Intermediate</button>
     </div>
     <div class="level-content">
 <div id="resume-banner" style="display:none;align-items:center;gap:12px;background:#FFF3E0;border:1px solid #FFCC80;border-radius:14px;padding:14px 18px;margin-bottom:20px;"></div>
-<div id="level-page-a1" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#FFF3E0;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#FF9500;">A1</span><span style="font-size:13px;color:#FF9500;">Beginner</span></div><div class="level-header-title">Beginner</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#FF9500;"><button class="mode-btn active" id="modebtn-a1-prep" onclick="switchMode('a1','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-a1-test" onclick="switchMode('a1','test')">📝 Test</button></div><div class="mode-pane" id="pane-a1-prep"><div id="testinfo-a1"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-a1-mock"></div></div><div class="mode-pane" id="pane-a1-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-a1-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-a1-final"></div></div></div></div></div><div id="level-page-a2" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#E8F8ED;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#34C759;">A2</span><span style="font-size:13px;color:#34C759;">Elementary</span></div><div class="level-header-title">Elementary</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#34C759;"><button class="mode-btn active" id="modebtn-a2-prep" onclick="switchMode('a2','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-a2-test" onclick="switchMode('a2','test')">📝 Test</button></div><div class="mode-pane" id="pane-a2-prep"><div id="testinfo-a2"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-a2-mock"></div></div><div class="mode-pane" id="pane-a2-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-a2-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-a2-final"></div></div></div></div></div><div id="level-page-b1" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#EAF3FF;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#007AFF;">B1</span><span style="font-size:13px;color:#007AFF;">Pre-Intermediate</span></div><div class="level-header-title">Pre-Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#007AFF;"><button class="mode-btn active" id="modebtn-b1-prep" onclick="switchMode('b1','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-b1-test" onclick="switchMode('b1','test')">📝 Test</button></div><div class="mode-pane" id="pane-b1-prep"><div id="testinfo-b1"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-b1-mock"></div></div><div class="mode-pane" id="pane-b1-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-b1-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-b1-final"></div></div></div></div></div><div id="level-page-b2" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#F5EFFE;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#AF52DE;">B2</span><span style="font-size:13px;color:#AF52DE;">Intermediate</span></div><div class="level-header-title">Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#AF52DE;"><button class="mode-btn active" id="modebtn-b2-prep" onclick="switchMode('b2','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-b2-test" onclick="switchMode('b2','test')">📝 Test</button></div><div class="mode-pane" id="pane-b2-prep"><div id="testinfo-b2"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-b2-mock"></div></div><div class="mode-pane" id="pane-b2-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-b2-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-b2-final"></div></div></div></div></div><div id="level-page-c1" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#FFEEED;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#FF3B30;">B2+</span><span style="font-size:13px;color:#FF3B30;">Upper-Intermediate</span></div><div class="level-header-title">Upper-Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#FF3B30;"><button class="mode-btn active" id="modebtn-c1-prep" onclick="switchMode('c1','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-c1-test" onclick="switchMode('c1','test')">📝 Test</button></div><div class="mode-pane" id="pane-c1-prep"><div id="testinfo-c1"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-c1-mock"></div></div><div class="mode-pane" id="pane-c1-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-c1-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-c1-final"></div></div></div></div></div>    </div>
+<div id="level-page-a1" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#FFF3E0;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#FF9500;">A1</span><span style="font-size:13px;color:#FF9500;">Beginner</span></div><div class="level-header-title">Beginner</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#FF9500;"><button class="mode-btn active" id="modebtn-a1-prep" onclick="switchMode('a1','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-a1-test" onclick="switchMode('a1','test')">📝 Test</button></div><div class="mode-pane" id="pane-a1-prep"><div id="testinfo-a1"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-a1-mock"></div></div><div class="mode-pane" id="pane-a1-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-a1-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-a1-final"></div></div></div></div></div><div id="level-page-a2" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#E8F8ED;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#34C759;">A2</span><span style="font-size:13px;color:#34C759;">Elementary</span></div><div class="level-header-title">Elementary</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#34C759;"><button class="mode-btn active" id="modebtn-a2-prep" onclick="switchMode('a2','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-a2-test" onclick="switchMode('a2','test')">📝 Test</button></div><div class="mode-pane" id="pane-a2-prep"><div id="testinfo-a2"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-a2-mock"></div></div><div class="mode-pane" id="pane-a2-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-a2-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-a2-final"></div></div></div></div></div><div id="level-page-b1" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#EAF3FF;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#007AFF;">B1</span><span style="font-size:13px;color:#007AFF;">Pre-Intermediate</span></div><div class="level-header-title">Pre-Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#007AFF;"><button class="mode-btn active" id="modebtn-b1-prep" onclick="switchMode('b1','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-b1-test" onclick="switchMode('b1','test')">📝 Test</button></div><div class="mode-pane" id="pane-b1-prep"><div id="testinfo-b1"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-b1-mock"></div></div><div class="mode-pane" id="pane-b1-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-b1-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-b1-final"></div></div></div></div></div><div id="level-page-b1plus" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#F5EFFE;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#AF52DE;">B1+</span><span style="font-size:13px;color:#AF52DE;">Intermediate</span></div><div class="level-header-title">Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#AF52DE;"><button class="mode-btn active" id="modebtn-b1plus-prep" onclick="switchMode('b1plus','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-b1plus-test" onclick="switchMode('b1plus','test')">📝 Test</button></div><div class="mode-pane" id="pane-b1plus-prep"><div id="testinfo-b1plus"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-b1plus-mock"></div></div><div class="mode-pane" id="pane-b1plus-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-b1plus-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-b1plus-final"></div></div></div></div></div><div id="level-page-b2" class="level-page"><div style="margin-bottom:20px;"><div style="display:inline-flex;align-items:center;gap:10px;background:#FFEEED;border-radius:12px;padding:8px 16px;margin-bottom:12px;"><span style="font-size:13px;font-weight:700;color:#FF3B30;">B2</span><span style="font-size:13px;color:#FF3B30;">Upper-Intermediate</span></div><div class="level-header-title">Upper-Intermediate</div><div class="level-header-sub">Choose a mode below.</div></div><div class="mode-switch" style="--accent:#FF3B30;"><button class="mode-btn active" id="modebtn-b2-prep" onclick="switchMode('b2','prep')">📚 Preparation</button><button class="mode-btn" id="modebtn-b2-test" onclick="switchMode('b2','test')">📝 Test</button></div><div class="mode-pane" id="pane-b2-prep"><div id="testinfo-b2"></div><div class="test-type-label2">Mock Tests — Practice for the Real Test</div><div class="test-grid-sm" id="grid-b2-mock"></div></div><div class="mode-pane" id="pane-b2-test" style="display:none;"><div class="test-mode-note">⚠️ These are the official assessed tests. Make sure you are ready before starting.</div><div class="test-cols"><div class="test-col"><div class="test-type-label2">Mid-Course Test</div><div class="test-grid-col" id="grid-b2-mid"></div></div><div class="test-col"><div class="test-type-label2">Final Test</div><div class="test-grid-col" id="grid-b2-final"></div></div></div></div></div>    </div>
   </div>
   <div class="footer"><div class="footer-brand"><span class="bk">Seve</span><span class="bb">n</span><span class="bk">ine</span></div><div class="footer-right">@sevenineuz &middot; Tashkent</div></div>
 </div>
@@ -1012,8 +1012,8 @@ select.field-input { cursor: pointer; }
                 <option value="A1">A1 – Beginner</option>
                 <option value="A2">A2 – Elementary</option>
                 <option value="B1" selected>B1 – Pre-Intermediate</option>
-                <option value="B2">B2 – Intermediate</option>
-                <option value="C1">B2+ – Upper-Intermediate</option>
+                <option value="B1+">B1+ – Intermediate</option>
+                <option value="B2">B2 – Upper-Intermediate</option>
               </select>
             </div>
             <div class="field">
@@ -1218,7 +1218,7 @@ async function enterApp(){
 }
 // Lock the sidebar so a student can only open their own level. Staff see everything.
 function applyStudentLevelLock(){
-  const ids=['a1','a2','b1','b2','c1'];
+  const ids=['a1','a2','b1','b1plus','b2'];
   if(CURRENT.role!=='student'){
     ids.forEach(lid=>{ const b=document.getElementById('lvbtn-'+lid); if(b){ b.classList.remove('level-locked'); b.disabled=false; } });
     return;
@@ -1316,7 +1316,7 @@ function selectTest(testId) {
   const badgeCls = test.type === 'mid' ? 'badge-orange' : test.type === 'final' ? 'badge-blue' : 'badge-mock';
   document.getElementById('entry-badge').innerHTML = `<span class="badge ${badgeCls}">${typeLabel}</span>`;
   document.getElementById('entry-test-title').textContent = test.title;
-  document.getElementById('entry-test-meta').textContent = `${test.level==='C1'?'B2+':test.level} · ${test.totalPoints} points · ${test.sections.length} sections`;
+  document.getElementById('entry-test-meta').textContent = `${test.level} · ${test.totalPoints} points · ${test.sections.length} sections`;
   const timerMins = test.timerMinutes || (test.type === 'final' ? 80 : 55);
   const timerEl = document.getElementById('entry-test-timer');
   if (timerEl) timerEl.textContent = `⏱ ${timerMins} minutes`;
@@ -2196,7 +2196,7 @@ function adminNav(page) {
 // ══════════════════════════════════════════
 // STUDENT MANAGEMENT (admin)
 // ══════════════════════════════════════════
-const STUDENT_LEVELS = [['A1','A1'],['A2','A2'],['B1','B1'],['B2','B2'],['B2+','B2+']];
+const STUDENT_LEVELS = [['A1','A1'],['A2','A2'],['B1','B1'],['B1+','B1+'],['B2','B2']];
 
 async function renderStudents(){
   const el=document.getElementById('students-list');
@@ -2627,7 +2627,7 @@ function renderAdminTests() {
         <button class="btn btn-red btn-xs" onclick="deleteTest('${t.id}')" title="Delete test">✕</button>
       </div>
       <div class="test-card-title">${t.title}</div>
-      <div class="test-card-meta">${t.level==='C1'?'B2+':t.level} · ${t.totalPoints} pts · ${t.sections.length} sections</div>
+      <div class="test-card-meta">${t.level} · ${t.totalPoints} pts · ${t.sections.length} sections</div>
       <div class="test-card-sections">${(t.sections||[]).map(s=>`<span class="sec-pip pip-${s.type}">${s.type}</span>`).join('')}</div>
       <div class="admin-card-actions">
         <button class="btn btn-ghost btn-sm" onclick="previewTest('${t.id}')">👁 Preview</button>
@@ -2994,7 +2994,7 @@ function viewAnswerKey(id) {
     '<div style="font-family:\'DM Serif Display\',serif;font-size:20px;">🔑 Answer Key</div>' +
     '<button class="btn btn-ghost btn-sm" onclick="downloadTestPDF(\'' + test.id + '\')">📄 Download</button>' +
     '</div>' +
-    '<div style="font-size:13px;color:var(--g3);margin-bottom:12px;">' + esc(test.title) + ' · ' + (test.level==='C1'?'B2+':test.level) + ' · ' + test.totalPoints + ' marks</div>' +
+    '<div style="font-size:13px;color:var(--g3);margin-bottom:12px;">' + esc(test.title) + ' · ' + (test.level) + ' · ' + test.totalPoints + ' marks</div>' +
     body +
     '</div>',
     'wide'
@@ -3023,7 +3023,7 @@ function buildTestPaper(id, withAnswers) {
   if (!test) return;
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const letters = ['a','b','c','d','e','f'];
-  const levelLabel = test.level === 'C1' ? 'B2+' : test.level;
+  const levelLabel = test.level;
   const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : 'Mock Test';
 
   let body = '';
@@ -3216,7 +3216,7 @@ async function handlePdfFile(file) {
 {
   "title": "test title",
   "type": "mid or final",
-  "level": "A1/A2/B1/B2/C1",
+  "level": "A1/A2/B1/B1+/B2",
   "totalPoints": number,
   "sections": [
     {
@@ -3593,14 +3593,14 @@ const LEVEL_META = {
   a1:{color:'#FF9500',light:'#FFF3E0',code:'A1',label:'Beginner'},
   a2:{color:'#34C759',light:'#E8F8ED',code:'A2',label:'Elementary'},
   b1:{color:'#007AFF',light:'#EAF3FF',code:'B1',label:'Pre-Intermediate'},
-  b2:{color:'#AF52DE',light:'#F5EFFE',code:'B2',label:'Intermediate'},
-  c1:{color:'#FF3B30',light:'#FFEEED',code:'B2+',label:'Upper-Intermediate'},
+  b1plus:{color:'#AF52DE',light:'#F5EFFE',code:'B1+',label:'Intermediate'},
+  b2:{color:'#FF3B30',light:'#FFEEED',code:'B2',label:'Upper-Intermediate'},
 };
-// Map any stored level string (e.g. "B2+", "C1", "A2") to the internal page id used in the UI.
+// Map any stored level string (e.g. "B1+", "A2") to the internal page id used in the UI.
 function levelToPageId(lvl){
   if(!lvl) return 'b1';
   const s = String(lvl).toLowerCase().replace(/\s+/g,'');
-  if(s==='b2+'||s==='b2plus'||s==='c1') return 'c1';
+  if(s==='b1+'||s==='b1plus') return 'b1plus';
   return s; // a1,a2,b1,b2
 }
 // The student's granted level + expiry (set on load); null for staff.
@@ -3617,7 +3617,7 @@ const SECTION_DESC = {
 
 function renderHome() {
   const tests = DB.tests;
-  ['a1','a2','b1','b2','c1'].forEach(lid => {
+  ['a1','a2','b1','b1plus','b2'].forEach(lid => {
     ['mid','final','mock'].forEach(type => {
       const el = document.getElementById('grid-'+lid+'-'+type);
       if(!el) return;
@@ -3874,7 +3874,7 @@ function testCard(t) {
     '<span class="test-card-stat">'+t.totalPoints+' pts &middot; '+mins+' min</span>'+
     '</div>'+
     '<div class="test-card-title">'+t.title+'</div>'+
-    '<div class="test-card-meta">'+(t.level==='C1'?'B2+':t.level)+' &middot; '+secs.length+' sections</div>'+
+    '<div class="test-card-meta">'+(t.level)+' &middot; '+secs.length+' sections</div>'+
     '<div class="test-card-sections">'+pips+'</div>'+
     '<div class="test-card-foot"><span>Start test</span><span class="tc-arrow">→</span></div>'+
     '</div>';
