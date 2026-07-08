@@ -1725,6 +1725,17 @@ function buildPassageWithInputs(passageText, fillQs) {
   return result;
 }
 
+// Deterministic per-attempt variant pick for multi-task (A/B) writing questions.
+// Seeding on the attempt id means the student view, the results view and the
+// grading view all resolve the SAME variant, with no server persistence and
+// no re-randomising on resume.
+function taskIndexFor(seed, q){
+  if(!q || !q.tasks || q.tasks.length < 2) return 0;
+  const s = String(seed==null?'':seed) + '|' + q.id;
+  let h = 2166136261;
+  for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0) % q.tasks.length;
+}
 function renderQuestion(q, qi, sec) {
   const saved = state.studentAnswers[q.id];
   let inner = '';
@@ -1778,7 +1789,8 @@ function renderQuestion(q, qi, sec) {
     let promptText = q.text || '';
     let taskLabel = '';
     if (q.tasks && q.tasks.length > 0) {
-      const idx = state.assignedTasks[q.id] !== undefined ? state.assignedTasks[q.id] : 0;
+      const idx = taskIndexFor(state.currentAttemptId, q);
+      state.assignedTasks[q.id] = idx; // keep in sync for the submit meta
       taskLabel = q.tasks[idx].label;
       promptText = q.tasks[idx].text;
     }
@@ -2159,7 +2171,7 @@ function showResults(attemptId) {
       const a = att.answers[q.id];
       if (!a) { html += `<div style="background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:6px;border-left:4px solid var(--g5);font-size:13px;color:var(--g4);">Q${qi+1} — not answered</div>`; return; }
       if (a.needsGrading) {
-        const tLabel = a.needsGrading && att.assignedTasks && q.tasks ? (q.tasks[att.assignedTasks[q.id]||0]?.label||'') : '';
+        const tLabel = (a.needsGrading && q.tasks && q.tasks.length) ? (q.tasks[taskIndexFor(att.id, q)]?.label||'') : '';
         html += `<div style="background:var(--white);border-radius:10px;padding:12px 14px;margin-bottom:6px;border-left:4px solid var(--orange);">
           <div style="font-size:11px;font-weight:700;color:var(--orange);margin-bottom:4px;">Writing ${tLabel} · Pending grading ${a.score > 0 ? '· Score: '+a.score+'/'+a.maxPts : ''}</div>
           <div style="font-size:13px;color:var(--g2);line-height:1.55;white-space:pre-wrap;">${(a.answer||'').substring(0,300)}${a.answer&&a.answer.length>300?'…':''}</div>
@@ -2767,7 +2779,8 @@ async function gradeWriting(attemptId) {
   if(!writingQs.length){ showToast('No writing answers found','error'); return; }
 
   const body = writingQs.map(({q, ans}) => {
-    const promptText = (q.tasks && ans && ans.taskIdx!==undefined && q.tasks[ans.taskIdx]) ? q.tasks[ans.taskIdx].text : (q.text||'Writing task');
+    const _ti = (q.tasks && q.tasks.length) ? taskIndexFor(attemptId, q) : 0;
+    const promptText = (q.tasks && q.tasks[_ti]) ? q.tasks[_ti].text : (q.text||'Writing task');
     const wc = (ans.answer||'').trim().split(/\s+/).filter(Boolean).length;
     return `<div class="grade-section">
         <div class="grade-section-title">${escapeHtml(promptText.substring(0,120))}…</div>
