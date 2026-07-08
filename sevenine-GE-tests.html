@@ -776,7 +776,7 @@ select.field-input { cursor: pointer; }
 </div>
 
 <div class="top-bar" id="main-topbar" style="display:none;">
-  <div class="top-bar-brand"><span class="bk">Seve</span><span class="bb">n</span><span class="bk">ine</span>
+  <div class="top-bar-brand" onclick="goHome()" title="Go to home" style="cursor:pointer;"><span class="bk">Seve</span><span class="bb">n</span><span class="bk">ine</span>
     <span style="font-size:13px;color:var(--g4);font-family:'DM Sans',sans-serif;font-weight:400;margin-left:8px;">Test Platform</span>
   </div>
   <div class="top-bar-right" id="topBarRight">
@@ -3885,6 +3885,14 @@ function testCard(t) {
     '</div>';
 }
 
+// Brand/logo click: always return to the home page from anywhere.
+// During a live test, route through the exit confirmation so an attempt
+// is never abandoned silently.
+function goHome(){
+  if(!CURRENT || !CURRENT.role) return;          // not logged in yet
+  if(state.currentView==='test'){ confirmExit(); return; }
+  showView('home');
+}
 function showView(name) {
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
