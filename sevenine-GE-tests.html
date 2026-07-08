@@ -1084,7 +1084,12 @@ let sb = null;
 function initSupabase(){
   try {
     if(window.supabase && window.supabase.createClient){
-      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        // Pass-through lock: bypass navigator.locks so a DB query issued right
+        // after signInWithPassword() can't deadlock on the auth token lock
+        // (caused staff login to hang until a manual page refresh).
+        auth: { lock: (name, acquireTimeout, fn) => fn() }
+      });
       return true;
     }
   } catch(e) { console.error('Supabase init failed', e); }
