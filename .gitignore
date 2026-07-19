@@ -1,0 +1,4 @@
+# Local dev notes & tooling — never publish to the public Pages repo
+CLAUDE.md
+.claude/
+*.bak
