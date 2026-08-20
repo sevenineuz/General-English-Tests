@@ -183,12 +183,19 @@ body {
 .test-grid-sm .test-card:nth-child(4){animation-delay:.17s}
 @keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.test-grid-sm .test-card,.level-page.active,.mode-pane{animation:none!important}}
+/* "Sevenine Verified": tests written in-house and checked against the coursebook syllabus,
+   as opposed to the publisher papers the platform started with. */
+.sv-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800;
+  letter-spacing: .04em; text-transform: uppercase; color: var(--blue); background: var(--blu-lt);
+  border: 1px solid #cfe3ff; border-radius: 20px; padding: 3px 9px; white-space: nowrap; }
+.sv-badge-lg { font-size: 11px; padding: 5px 12px; }
+
 .sec-pip {
   font-size: 9.5px; font-weight: 700; padding: 3px 9px; border-radius: 6px;
   text-transform: uppercase; letter-spacing: .07em;
   background: var(--g6); color: var(--g3);
 }
-.pip-listening, .pip-reading, .pip-grammar, .pip-vocabulary, .pip-writing { background: var(--g6); color: var(--g3); }
+.pip-listening, .pip-reading, .pip-grammar, .pip-vocabulary, .pip-writing, .pip-speaking { background: var(--g6); color: var(--g3); }
 
 .empty-state {
   text-align: center; padding: 48px 24px;
@@ -308,6 +315,18 @@ select.field-input { cursor: pointer; }
 .sh-grammar   { background: var(--gram-lt);    color: var(--gram); }
 .sh-vocabulary{ background: var(--vocab-lt);   color: var(--vocab); }
 .sh-writing   { background: var(--write-lt);   color: var(--write); }
+.sh-speaking  { background: var(--vocab-lt);   color: var(--vocab); }
+
+/* Speaking: done face to face with the teacher - the student has nothing to fill in. */
+.speak-card { border: 1px solid var(--g5); border-radius: 16px; background: var(--white); padding: 26px 24px; text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 26px -22px rgba(0,0,0,.25); }
+.speak-ic { font-size: 40px; line-height: 1; }
+.speak-title { font-family: 'DM Serif Display', serif; font-size: 21px; color: var(--g1); margin: 12px 0 6px; }
+.speak-sub { font-size: 14px; color: var(--g3); max-width: 430px; margin: 0 auto; line-height: 1.55; }
+.speak-pts { display: inline-block; margin-top: 16px; font-size: 12px; font-weight: 700; color: var(--vocab);
+  background: var(--vocab-lt); border-radius: 20px; padding: 6px 14px; }
+.speak-rubric { margin-top: 18px; text-align: left; background: var(--g6); border-radius: 12px; padding: 14px 16px;
+  font-size: 12.5px; color: var(--g3); white-space: pre-wrap; line-height: 1.6; }
 
 /* Audio player */
 .audio-player {
@@ -507,6 +526,31 @@ select.field-input { cursor: pointer; }
 .admin-nav-item:hover { background: var(--g6); color: var(--g1); }
 .admin-nav-item.active { background: var(--blu-lt); color: var(--blue); font-weight: 600; }
 .admin-nav-icon { font-size: 16px; }
+/* Kids word-sort task: the paper's "write the words in the correct group" table,
+   played by dragging a word chip into a group box (tap-to-place also works on touch). */
+.ws-wrap { margin: 4px 0 6px; }
+.ws-bank-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--g4); margin-bottom: 8px; }
+.ws-bank { display: flex; flex-wrap: wrap; gap: 9px; min-height: 56px; padding: 13px; border: 2px dashed var(--g5);
+  border-radius: 14px; background: var(--g6); margin-bottom: 20px; align-content: flex-start; }
+.ws-bank.ws-empty::before { content: 'All the words are in a box. Drag one back here to change it.'; font-size: 12.5px; color: var(--g4); }
+.ws-chip { display: inline-flex; align-items: center; padding: 9px 14px; border-radius: 10px; background: var(--white);
+  border: 1px solid var(--g5); box-shadow: 0 1px 2px rgba(0,0,0,.05); font-size: 14px; font-weight: 600; color: var(--g2);
+  cursor: grab; user-select: none; -webkit-user-select: none; touch-action: none; }
+.ws-chip:active { cursor: grabbing; }
+.ws-chip.ws-sel { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,122,255,.18); }
+.ws-chip.ws-dragging { opacity: .3; }
+.ws-ghost { position: fixed; z-index: 9999; margin: 0; pointer-events: none; transform: rotate(-2deg);
+  box-shadow: 0 12px 26px rgba(0,0,0,.20); }
+.ws-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.ws-grp { border: 1px solid var(--g5); border-radius: 14px; background: var(--white); overflow: hidden; }
+.ws-grp-name { background: var(--vocab-lt); color: var(--vocab); padding: 9px 12px; font-size: 12.5px; font-weight: 800;
+  border-bottom: 1px solid var(--g5); }
+.ws-slot { min-height: 46px; margin: 9px; border: 2px dashed var(--g5); border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; padding: 4px; }
+.ws-slot.filled { border-style: solid; border-color: var(--blue); background: var(--blu-lt); }
+.ws-over { border-color: var(--blue) !important; background: var(--blu-lt) !important; }
+@media (max-width: 520px) { .ws-groups { grid-template-columns: 1fr 1fr; } }
+
 .kids-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
 .kids-card { background: var(--white); border: 1px solid var(--g5); border-radius: 16px; padding: 18px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 26px -20px rgba(0,0,0,.22); }
 .kids-card-head { display: flex; align-items: center; gap: 13px; margin-bottom: 16px; }
@@ -811,7 +855,9 @@ select.field-input { cursor: pointer; }
 .flip-row:last-child{border-bottom:none;}
 .flip-row-main{flex:1;min-width:0;}
 .flip-row-title{font-size:13.5px;font-weight:700;color:var(--g1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.flip-row-meta{font-size:11px;color:var(--g4);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:7px;}
+.flip-row-meta{font-size:11px;color:var(--g4);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.flip-row-meta>span:last-child{white-space:nowrap;}
+.flip-row-meta .sv-badge{font-size:9px;padding:2px 7px;}
 .flip-row-tag{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:6px;}
 .flip-row-actions{display:flex;gap:6px;flex-shrink:0;}
 .flip-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;transition:transform .12s,filter .15s;}
@@ -869,14 +915,14 @@ select.field-input { cursor: pointer; }
   <div class="home-wrap">
     <div id="resume-banner" style="display:none;align-items:center;gap:12px;background:#FFF3E0;border:1px solid #FFCC80;border-radius:14px;padding:14px 18px;margin-bottom:20px;"></div>
     <div id="home-access-banner"></div>
-    <div class="home-head">
+    <div class="home-head" id="ge-head">
       <div class="home-title" id="home-title">Choose a level</div>
       <div class="home-sub" id="home-sub">Open a level to view its mock and official tests.</div>
     </div>
     <div class="level-cards" id="level-cards"></div>
     <div class="home-head" id="kids-head" style="display:none;margin-top:42px;">
-      <div class="home-title">Kids Programme</div>
-      <div class="home-sub">Family &amp; Friends — printable paper tests, each with a built-in exam report for parents.</div>
+      <div class="home-title" id="kids-head-title">Kids Programme</div>
+      <div class="home-sub" id="kids-head-sub">Family &amp; Friends — online tests, plus a printable paper copy with a built-in exam report.</div>
     </div>
     <div class="level-cards" id="kids-cards"></div>
   </div>
@@ -1280,7 +1326,7 @@ async function loadTestsFromSupabase(){
         DB.tests = data.tests.map(t => ({
           id:t.id, title:t.title, level:t.level, type:t.type,
           timerMinutes:t.timer_minutes, audioPlays:t.audio_plays,
-          totalPoints:t.total_points, sections:t.data
+          totalPoints:t.total_points, sections:t.data, verified:t.verified
         }));
       }
     } else {
@@ -1290,7 +1336,7 @@ async function loadTestsFromSupabase(){
       DB.tests = (data||[]).map(t => ({
         id:t.id, title:t.title, level:t.level, type:t.type,
         timerMinutes:t.timer_minutes, audioPlays:t.audio_plays,
-        totalPoints:t.total_points, sections:t.data, published:t.published
+        totalPoints:t.total_points, sections:t.data, published:t.published, verified:t.verified
       }));
     }
   }catch(e){ console.error('loadTests failed', e); showToast && showToast('Could not load tests','error'); }
@@ -1407,7 +1453,8 @@ function selectTest(testId) {
 
   const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : 'Mock Test';
   const badgeCls = test.type === 'mid' ? 'badge-orange' : test.type === 'final' ? 'badge-blue' : 'badge-mock';
-  document.getElementById('entry-badge').innerHTML = `<span class="badge ${badgeCls}">${typeLabel}</span>`;
+  document.getElementById('entry-badge').innerHTML = `<span class="badge ${badgeCls}">${typeLabel}</span>` +
+    (test.verified ? ` <span class="sv-badge sv-badge-lg" title="Written by Sevenine for this coursebook">&#10003; Sevenine Verified</span>` : '');
   document.getElementById('entry-test-title').textContent = test.title;
   document.getElementById('entry-test-meta').textContent = `${test.level} · ${test.totalPoints} points · ${test.sections.length} sections`;
   const timerMins = test.timerMinutes || (test.type === 'final' ? 80 : 55);
@@ -1626,8 +1673,9 @@ function renderSection() {
   // Section nav
   document.getElementById('section-nav').innerHTML = sections.map((s, i) => {
     const isActive = i === idx;
-    const total = (s.questions || []).length;
-    const answered = (s.questions || []).filter(q => { const a = state.studentAnswers[q.id]; return a !== undefined && a !== '' && a.toString().trim() !== ''; }).length;
+    const fillable = (s.questions || []).filter(q => q.type !== 'speaking');
+    const total = fillable.length;
+    const answered = fillable.filter(q => { const a = state.studentAnswers[q.id]; return a !== undefined && a !== '' && a.toString().trim() !== ''; }).length;
     const isDone = !isActive && total > 0 && answered === total;
     const isPartial = !isActive && answered > 0 && answered < total;
     const cls = isActive ? 'active' : isDone ? 'done' : isPartial ? 'partial' : '';
@@ -1739,15 +1787,20 @@ function renderSection() {
   let wordBoxHtml = '';
   if (sec.wordBox && sec.wordBox.length) {
     wordBoxHtml = `<div class="word-box">
-      <div class="word-box-label">Word Box — use each word once</div>
+      <div class="word-box-label">Word Box</div>
       ${sec.wordBox.map(w => `<span class="word-chip">${w}</span>`).join('')}
     </div>`;
   }
+
+  // Word-sort task (kids vocabulary): rendered as one table, not as question cards.
+  const sortQs = qs.filter(q => q.type === 'word_sort');
+  const sortHtml = (sortQs.length && sec.groups && sec.groups.length) ? buildWordSort(sec, sortQs) : '';
 
   // Questions
   let questionsHtml = '';
   qs.forEach((q, qi) => {
     if (sec._inlineRendered && sec._inlineRendered.includes(q.id)) return;
+    if (q.type === 'word_sort') return;
     questionsHtml += renderQuestion(q, qi, sec);
   });
 
@@ -1755,10 +1808,10 @@ function renderSection() {
     // Side-by-side: passage on the left (sticky), questions on the right
     html += `<div class="reading-split">
       <div class="reading-passage-col">${passageHtml}</div>
-      <div class="reading-questions-col">${wordBoxHtml}${questionsHtml}</div>
+      <div class="reading-questions-col">${wordBoxHtml}${sortHtml}${questionsHtml}</div>
     </div>`;
   } else {
-    html += passageHtml + wordBoxHtml + questionsHtml;
+    html += passageHtml + wordBoxHtml + sortHtml + questionsHtml;
   }
 
   document.getElementById('section-content').innerHTML = html;
@@ -1824,6 +1877,153 @@ function taskIndexFor(seed, q){
   for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
   return (h >>> 0) % q.tasks.length;
 }
+// ══════════════════════════════════════════
+// WORD-SORT (kids vocabulary) — the paper's word bank + group table.
+// Each word is one question: its answer is the NAME of the group it is dropped into,
+// so the normal grader marks it with no special casing. Two slots per group, exactly
+// like the paper. Dragging uses pointer events (mouse AND touch); a tap selects a word
+// and the next tap on a box places it, which is the reliable path on tablets.
+// ══════════════════════════════════════════
+let WS = { qid:null, ghost:null, moved:false, x0:0, y0:0, offX:0, offY:0, over:null, sel:null };
+
+function wsChipHtml(q){
+  return '<div class="ws-chip" id="wsc_' + q.id + '" data-qid="' + q.id + '"' +
+    ' onpointerdown="wsDown(event,\'' + q.id + '\')">' + escapeHtml(q.text || '') + '</div>';
+}
+
+function buildWordSort(sec, qs){
+  const placedIn = q => String(state.studentAnswers[q.id] || '');
+  const bank = qs.filter(q => !placedIn(q)).map(wsChipHtml).join('');
+  const groups = sec.groups.map(g => {
+    const inG = qs.filter(q => placedIn(q) === g).slice(0, 2);
+    const slots = [0,1].map(i => {
+      const q = inG[i];
+      return '<div class="ws-slot' + (q ? ' filled' : '') + '" data-group="' + escAttr(g) + '"' +
+        ' onclick="wsBoxClick(event,this)">' + (q ? wsChipHtml(q) : '') + '</div>';
+    }).join('');
+    return '<div class="ws-grp" data-group="' + escAttr(g) + '" onclick="wsBoxClick(event,this)">' +
+      '<div class="ws-grp-name">' + escapeHtml(g) + '</div>' + slots + '</div>';
+  }).join('');
+  return '<div class="ws-wrap" id="ws_' + sec.id + '">' +
+    '<div class="ws-bank-label">Word bank — drag a word into its group, or tap the word then tap the box</div>' +
+    '<div class="ws-bank' + (bank ? '' : ' ws-empty') + '" onclick="wsBoxClick(event,this)">' + bank + '</div>' +
+    '<div class="ws-groups">' + groups + '</div></div>';
+}
+
+function wsDown(ev, qid){
+  if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+  const chip = document.getElementById('wsc_' + qid); if (!chip) return;
+  WS.qid = qid; WS.moved = false; WS.x0 = ev.clientX; WS.y0 = ev.clientY;
+  try { chip.setPointerCapture(ev.pointerId); } catch(e){}
+  chip.addEventListener('pointermove', wsMove);
+  chip.addEventListener('pointerup', wsUp);
+  chip.addEventListener('pointercancel', wsUp);
+}
+
+function wsMove(ev){
+  if (!WS.qid) return;
+  const chip = document.getElementById('wsc_' + WS.qid); if (!chip) return;
+  const dx = ev.clientX - WS.x0, dy = ev.clientY - WS.y0;
+  if (!WS.moved && (dx*dx + dy*dy) < 36) return;   // under ~6px is a tap, not a drag
+  if (!WS.moved){
+    WS.moved = true;
+    const r = chip.getBoundingClientRect();
+    WS.offX = WS.x0 - r.left; WS.offY = WS.y0 - r.top;
+    WS.ghost = chip.cloneNode(true);
+    WS.ghost.removeAttribute('id');
+    WS.ghost.className = 'ws-chip ws-ghost';
+    WS.ghost.style.width = r.width + 'px';
+    document.body.appendChild(WS.ghost);
+    chip.classList.add('ws-dragging');
+    wsClearSel();
+  }
+  WS.ghost.style.left = (ev.clientX - WS.offX) + 'px';
+  WS.ghost.style.top  = (ev.clientY - WS.offY) + 'px';
+  const t = wsTargetAt(ev.clientX, ev.clientY);
+  if (WS.over && WS.over !== t) WS.over.classList.remove('ws-over');
+  WS.over = t; if (t) t.classList.add('ws-over');
+  ev.preventDefault();
+}
+
+// What is under the pointer — the ghost is hidden for the hit-test so it can't shadow the target.
+function wsTargetAt(x, y){
+  if (WS.ghost) WS.ghost.style.display = 'none';
+  const el = document.elementFromPoint(x, y);
+  if (WS.ghost) WS.ghost.style.display = '';
+  return el ? el.closest('.ws-slot, .ws-grp, .ws-bank') : null;
+}
+
+function wsUp(ev){
+  const qid = WS.qid; if (!qid) return;
+  const chip = document.getElementById('wsc_' + qid);
+  if (chip){
+    chip.removeEventListener('pointermove', wsMove);
+    chip.removeEventListener('pointerup', wsUp);
+    chip.removeEventListener('pointercancel', wsUp);
+    chip.classList.remove('ws-dragging');
+  }
+  const moved = WS.moved;
+  const target = moved ? wsTargetAt(ev.clientX, ev.clientY) : null;
+  if (WS.over) WS.over.classList.remove('ws-over');
+  if (WS.ghost){ WS.ghost.remove(); WS.ghost = null; }
+  WS.qid = null; WS.moved = false; WS.over = null;
+  if (moved){ if (target) wsDropOn(qid, target); }
+  else { wsTap(qid); }
+}
+
+// Tap a word to pick it up; tap it again to put it down.
+function wsTap(qid){
+  const chip = document.getElementById('wsc_' + qid); if (!chip) return;
+  const wasSel = (WS.sel === qid);
+  wsClearSel();
+  if (!wasSel){ WS.sel = qid; chip.classList.add('ws-sel'); }
+}
+function wsClearSel(){
+  if (WS.sel){
+    const c = document.getElementById('wsc_' + WS.sel);
+    if (c) c.classList.remove('ws-sel');
+  }
+  WS.sel = null;
+}
+
+// Click on a box (slot / group / bank) — places the word that is currently picked up.
+function wsBoxClick(ev, el){
+  if (ev.target.closest('.ws-chip')) return;   // tapping a word is handled by wsTap
+  if (!WS.sel) return;
+  const qid = WS.sel; wsClearSel();
+  wsDropOn(qid, el);
+}
+
+function wsDropOn(qid, target){
+  if (target.classList.contains('ws-bank')) return wsPlace(qid, '', null);
+  let slot = target.classList.contains('ws-slot') ? target : null;
+  if (!slot){
+    const grp = target.closest('.ws-grp');
+    if (!grp) return;
+    slot = grp.querySelector('.ws-slot:not(.filled)') || grp.querySelector('.ws-slot');
+  }
+  if (slot) wsPlace(qid, slot.dataset.group || '', slot);
+}
+
+function wsPlace(qid, group, slot){
+  const chip = document.getElementById('wsc_' + qid); if (!chip) return;
+  const wrap = chip.closest('.ws-wrap'); if (!wrap) return;
+  const bank = wrap.querySelector('.ws-bank');
+  const from = chip.parentElement;
+  if (!group || !slot){
+    bank.appendChild(chip);
+  } else {
+    // The box already holds a word: that one goes back to the bank rather than being lost.
+    const occ = slot.querySelector('.ws-chip');
+    if (occ && occ !== chip){ bank.appendChild(occ); saveAnswer(occ.dataset.qid, ''); }
+    slot.appendChild(chip);
+    slot.classList.add('filled');
+  }
+  if (from && from !== slot && from.classList.contains('ws-slot') && !from.querySelector('.ws-chip')) from.classList.remove('filled');
+  saveAnswer(qid, group || '');
+  bank.classList.toggle('ws-empty', !bank.querySelector('.ws-chip'));
+}
+
 function renderQuestion(q, qi, sec) {
   const saved = state.studentAnswers[q.id];
   let inner = '';
@@ -1853,7 +2053,7 @@ function renderQuestion(q, qi, sec) {
   }
 
   if (q.type === 'multiple_choice') {
-    const letters = ['a','b','c','d','e','f'];
+    const letters = ['a','b','c','d','e','f','g','h'];
     inner = `<div class="mc-options">` +
       q.options.map((opt, i) => {
         const letter = letters[i];
@@ -1892,6 +2092,21 @@ function renderQuestion(q, qi, sec) {
       onpaste="return blockPaste(event)" ondrop="return false"
       onchange="saveAnswer('${q.id}', this.value)"
       oninput="saveAnswer('${q.id}', this.value)">`;
+
+  } else if (q.type === 'speaking') {
+    // Nothing for the student to fill in: the mark is added by the teacher after the
+    // face-to-face test. Staff previewing the paper still see the teacher's rubric.
+    const isStaff = CURRENT.role === 'admin' || CURRENT.role === 'owner';
+    return `<div class="q-card" id="qc_${q.id}">
+      <div class="speak-card">
+        <div class="speak-ic">🗣️</div>
+        <div class="speak-title">Speaking test</div>
+        <div class="speak-sub">You do this part out loud with your teacher — there is nothing to type here.
+          Your teacher adds your speaking mark after you talk together.</div>
+        <div class="speak-pts">${q.points} marks · with your teacher</div>
+        ${isStaff ? `<div class="speak-rubric">${escapeHtml(q.text || '')}</div>` : ''}
+      </div>
+    </div>`;
 
   } else if (q.type === 'writing') {
     const saved = state.studentAnswers[q.id] || '';
@@ -2007,6 +2222,7 @@ function attemptSubmit() {
   let unanswered = [];
   [...test.sections].sort((a,b)=>a.position-b.position).forEach((sec, si) => {
     (sec.questions || []).forEach((q, qi) => {
+      if (q.type === 'speaking') return;   // done with the teacher, nothing to fill in
       const a = state.studentAnswers[q.id];
       if (a === undefined || a === '') unanswered.push({ secTitle: sec.title, qNum: qi + 1, secIdx: si });
     });
@@ -2063,9 +2279,9 @@ async function submitTest(force) {
     sec.questions.forEach(q => {
       const raw = state.studentAnswers[q.id] || '';
       const studentAns = normalizeAnswer(raw);
-      if (q.type === 'writing') {
+      if (q.type === 'writing' || q.type === 'speaking') {
         hasWriting = true;
-        gradedAnswers[q.id] = { answer: raw, isCorrect: null, score: 0, maxPts: q.points, needsGrading: true };
+        gradedAnswers[q.id] = { answer: raw, isCorrect: null, score: 0, maxPts: q.points, needsGrading: true, qtype: q.type };
         return;
       }
       maxAuto += q.points;
@@ -2151,8 +2367,11 @@ function toggleMyResDetail(aid){
   let correct=0, autoTotal=0, rows='';
   bd.forEach((q,i)=>{
     if(q.needsGrading){
-      // Writing not yet graded — never reveal a correct answer
-      rows+='<div class="hist-q"><div class="hist-q-text">Q'+(i+1)+': &#9997;&#65039; Writing &mdash; awaiting grading</div></div>';
+      // Writing / speaking not yet graded — never reveal a correct answer
+      const lbl = (q.qtype==='speaking') ? '&#128483;&#65039; Speaking' : '&#9997;&#65039; Writing';
+      rows+='<div class="hist-q"><div class="hist-q-text">Q'+(i+1)+': '+lbl+' &mdash; awaiting grading</div></div>';
+    } else if(q.qtype==='speaking'){
+      rows+='<div class="hist-q"><div class="hist-q-text">Q'+(i+1)+': &#128483;&#65039; Speaking &middot; '+(q.score!=null?q.score:'0')+'/'+(q.maxPts||'?')+' pts</div></div>';
     } else if(q.qtype==='writing'){
       // Graded writing — show submitted text and score, no correct answer
       const submitted=(q.answer==null||q.answer==='')?'<em style="color:var(--g4);">(no answer submitted)</em>':escapeHtml(String(q.answer));
@@ -2202,7 +2421,11 @@ function showStudentResult(data) {
     <div style="margin-top:8px;font-size:12px;color:var(--g4);">Submitted ${new Date().toLocaleString()}</div>
   </div>`;
   if (pending) {
-    html += `<div class="writing-flag">✏️ <div><strong>Writing pending</strong> — your teacher will grade the writing section. The auto-marked score above will increase once that's done.</div></div>`;
+    // Kids tests also leave the face-to-face speaking mark to the teacher.
+    const hasSpeaking = (test.sections||[]).some(sec => (sec.questions||[]).some(q => q.type === 'speaking'));
+    const what = hasSpeaking ? 'Writing &amp; speaking pending' : 'Writing pending';
+    const which = hasSpeaking ? 'the writing and speaking parts' : 'the writing section';
+    html += `<div class="writing-flag">✏️ <div><strong>${what}</strong> — your teacher will mark ${which}. The auto-marked score above will increase once that's done.</div></div>`;
   }
   html += `<div style="background:var(--blu-lt);border:1px solid #BBDEFB;border-radius:12px;padding:16px;margin-top:18px;font-size:13.5px;color:var(--g2);text-align:center;">
     Your answers have been submitted and saved. Your teacher can see your full results.
@@ -2410,7 +2633,8 @@ function downloadKidsDoc(docId){
 // ══════════════════════════════════════════
 // STUDENT MANAGEMENT (admin)
 // ══════════════════════════════════════════
-const STUDENT_LEVELS = [['A1','A1'],['A2','A2'],['B1','B1'],['B1+','B1+'],['B2','B2']];
+const STUDENT_LEVELS = [['A1','A1'],['A2','A2'],['B1','B1'],['B1+','B1+'],['B2','B2'],
+  ['K1','Kids Level 1'],['K2','Kids Level 2'],['K3','Kids Level 3'],['K4','Kids Level 4']];
 
 async function renderStudents(){
   const el=document.getElementById('students-list');
@@ -2627,7 +2851,9 @@ function toggleHistDetail(aid){
       (sec.questions||[]).forEach((q,qi)=>{
         const rec = ans[q.id]||{};
         const studentAns = (rec.answer!==undefined && rec.answer!=='') ? rec.answer : '—';
-        if(q.type==='writing'){
+        if(q.type==='speaking'){
+          html+='<div class="hist-q"><div class="hist-q-text">🗣️ Speaking (face to face)'+(rec.needsGrading?' <span class="sb-badge sb-amber">needs grading</span>':(rec.score!=null?' · '+rec.score+'/'+(rec.maxPts||q.points)+' pts':''))+'</div></div>';
+        } else if(q.type==='writing'){
           html+='<div class="hist-q"><div class="hist-q-text">✍️ Writing'+(rec.needsGrading?' <span class="sb-badge sb-amber">needs grading</span>':(rec.score!=null?' · '+rec.score+'/'+(rec.maxPts||q.points)+' pts':''))+'</div>'+
             '<div class="hist-q-ans" style="white-space:pre-wrap;">'+escapeHtml(String(studentAns))+'</div></div>';
         } else {
@@ -2969,13 +3195,26 @@ async function gradeWriting(attemptId) {
   const answers = att.answers || {};
   const writingQs = [];
   testData.forEach(sec => {
-    (sec.questions||[]).filter(q => q.type === 'writing').forEach(q => {
+    (sec.questions||[]).filter(q => q.type === 'writing' || q.type === 'speaking').forEach(q => {
       if (answers[q.id]) writingQs.push({ q, ans: answers[q.id] });
     });
   });
   if(!writingQs.length){ showToast('No writing answers found','error'); return; }
 
   const body = writingQs.map(({q, ans}) => {
+    // Speaking was done face to face: show the teacher card instead of a submitted answer,
+    // and just take the mark.
+    if (q.type === 'speaking') {
+      return `<div class="grade-section">
+        <div class="grade-section-title">🗣️ Speaking — marked face to face</div>
+        <div class="grade-answer-box" style="white-space:pre-wrap;font-size:12.5px;color:var(--g3);">${escapeHtml(q.text||'')}</div>
+        <div class="grade-input-row">
+          <label>Score:</label>
+          <input class="field-input score-input" id="gs_${q.id}" type="number" min="0" max="${q.maxPts||q.points}" value="${ans.needsGrading ? '' : (ans.score || 0)}" placeholder="0">
+          <span style="font-size:13px;color:var(--g3);">/ ${q.maxPts||q.points}</span>
+        </div>
+      </div>`;
+    }
     const _ti = (q.tasks && q.tasks.length) ? taskIndexFor(attemptId, q) : 0;
     const promptText = (q.tasks && q.tasks[_ti]) ? q.tasks[_ti].text : (q.text||'Writing task');
     const wc = (ans.answer||'').trim().split(/\s+/).filter(Boolean).length;
@@ -3058,7 +3297,7 @@ function renderSectionsBuilder() {
         <span>${sectionIcon(sec.type)}</span>
         <span style="flex:1;font-size:14px;font-weight:600;color:var(--g1);">${sec.title}</span>
         <select class="field-input" style="width:140px;font-size:12px;" onchange="changeSectionType(${si},this.value)" onclick="event.stopPropagation()">
-          ${['listening','reading','grammar','vocabulary','writing'].map(t=>`<option value="${t}" ${sec.type===t?'selected':''}>${t}</option>`).join('')}
+          ${['listening','reading','grammar','vocabulary','writing','speaking'].map(t=>`<option value="${t}" ${sec.type===t?'selected':''}>${t}</option>`).join('')}
         </select>
         <input class="field-input" style="width:70px;font-size:12px;" type="number" value="${sec.points}" placeholder="pts"
           onchange="state.builderTest.sections[${si}].points=parseInt(this.value)||0" onclick="event.stopPropagation()">
@@ -3111,7 +3350,7 @@ function renderQuestionsBuilder(qs, si) {
         <span class="q-builder-num">Q${qi+1}</span>
         <div style="display:flex;gap:8px;align-items:center;">
           <select class="field-input" style="font-size:12px;padding:4px 8px;" onchange="changeQType(${si},${qi},this.value)">
-            ${['multiple_choice','true_false','true_false_ng','fill_blank','fill_blank_box','first_letter','writing'].map(t=>`<option value="${t}" ${q.type===t?'selected':''}>${t.replace(/_/g,' ')}</option>`).join('')}
+            ${['multiple_choice','true_false','true_false_ng','fill_blank','fill_blank_box','first_letter','writing','speaking','word_sort'].map(t=>`<option value="${t}" ${q.type===t?'selected':''}>${t.replace(/_/g,' ')}</option>`).join('')}
           </select>
           <input class="field-input" style="width:60px;font-size:12px;" type="number" value="${q.points}" onchange="state.builderTest.sections[${si}].questions[${qi}].points=parseInt(this.value)||2" placeholder="pts">
           <button class="btn btn-red btn-xs" onclick="removeQuestion(${si},${qi})">✕</button>
@@ -3136,7 +3375,7 @@ function renderQuestionsBuilder(qs, si) {
 }
 
 function renderMCBuilder(q, si, qi) {
-  const letters = ['a','b','c','d'];
+  const letters = ['a','b','c','d','e','f','g','h'];
   return `<div class="field">
     <label class="field-label">Options (select correct)</label>
     <div class="options-list">
@@ -3176,7 +3415,7 @@ function viewAnswerKey(id) {
   const test = DB.tests.find(t => t.id === id);
   if (!test) { showToast('Test not found', 'error'); return; }
   if (!test.totalPoints) { showToast('This test has no content yet', 'error'); return; }
-  const letters = ['a','b','c','d','e','f'];
+  const letters = ['a','b','c','d','e','f','g','h'];
   const esc = s => escapeHtml(String(s||''));
 
   let body = '';
@@ -3188,7 +3427,9 @@ function viewAnswerKey(id) {
       const cleanText = (q.text||'').replace(/^\s*\d+\.\s*/,'').replace(/^Gap\s*\d+:\s*/i,'').replace(/\n/g,' ').slice(0,90);
       body += '<div class="akey-q"><span class="akey-qnum">Q' + (i+1) + '</span>';
       body += '<div class="akey-qtext">' + esc(cleanText) + (cleanText.length>=90?'…':'') + '</div>';
-      if (q.type === 'writing') {
+      if (q.type === 'speaking') {
+        body += '<span class="akey-manual">🗣 Speaking — marked face to face (' + q.points + ' pts)</span>';
+      } else if (q.type === 'writing') {
         body += '<span class="akey-manual">✍ Manually graded (' + q.points + ' pts)</span>';
       } else if (q.correct) {
         let ans = String(q.correct).split('|').join('  /  ');
@@ -3237,7 +3478,7 @@ function buildTestPaper(id, withAnswers) {
   const test = DB.tests.find(t => t.id === id);
   if (!test) return;
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const letters = ['a','b','c','d','e','f'];
+  const letters = ['a','b','c','d','e','f','g','h'];
   const levelLabel = test.level;
   const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : 'Mock Test';
 
@@ -3255,11 +3496,13 @@ function buildTestPaper(id, withAnswers) {
       body += '<div class="akey-grid">';
       qs.forEach((q, i) => {
         const pts = (q.points!=null && q.points!=='') ? (q.points + ' pt' + (q.points===1?'':'s')) : '';
-        if (q.type === 'writing') {
-          body += '<div class="akey-cell akey-cell-w"><span class="akey-qn">Q' + (i+1) + '</span><span class="akey-a akey-writing">Manually graded by teacher</span><span class="akey-p">' + pts + '</span></div>';
+        if (q.type === 'writing' || q.type === 'speaking') {
+          const manual = q.type === 'speaking' ? 'Speaking — marked face to face' : 'Manually graded by teacher';
+          body += '<div class="akey-cell akey-cell-w"><span class="akey-qn">Q' + (i+1) + '</span><span class="akey-a akey-writing">' + manual + '</span><span class="akey-p">' + pts + '</span></div>';
         } else {
           let a = String(q.correct||'').trim();
           a = (q.type === 'multiple_choice') ? a.toUpperCase() : a.split('|').join(' / ');
+          if (q.type === 'word_sort') a = (q.text||'') + ' \u2192 ' + a;
           body += '<div class="akey-cell"><span class="akey-qn">Q' + (i+1) + '</span><span class="akey-a">' + esc(a || '—') + '</span><span class="akey-p">' + pts + '</span></div>';
         }
       });
@@ -3269,7 +3512,7 @@ function buildTestPaper(id, withAnswers) {
     sorted.forEach(sec => {
       sNum++;
       const qs = (sec.questions||[]).slice().sort((a,b)=>a.position-b.position);
-      body += '<section class="sec' + (sec.type==='writing' ? ' sec-writing' : '') + '">';
+      body += '<section class="sec' + (sec.type==='writing' || sec.type==='speaking' ? ' sec-writing' : '') + '">';
       body += '<h2><span class="snum">' + sNum + '</span>' + esc(sec.title) + ' <span class="spts">(' + sec.points + ' marks)</span></h2>';
       if (sec.instructions) body += '<p class="instr">' + esc(sec.instructions) + '</p>';
       if (sec.audioUrl !== undefined && sec.type === 'listening') body += '<p class="note">🔊 Listening — audio played by the teacher.</p>';
@@ -3298,12 +3541,23 @@ function buildTestPaper(id, withAnswers) {
         body += '<div class="wordbox"><strong>Word box:</strong> ' + sec.wordBox.map(esc).join(' &nbsp;·&nbsp; ') + '</div>';
       }
 
-      const listQs = qs.filter(q => inlineIds.indexOf(q.id) < 0);
+      // Word-sort task: printed exactly like the kids paper - a word bank over a grid of
+      // group boxes with two blank slots each.
+      const sortQs = qs.filter(q => q.type === 'word_sort');
+      if (sortQs.length && sec.groups && sec.groups.length) {
+        body += '<div class="wsbank">' + sortQs.map(q => '<span>' + esc(q.text) + '</span>').join('') + '</div>';
+        body += '<div class="wsgroups">' + sec.groups.map(g =>
+          '<div class="wsgrp"><h4>' + esc(g) + '</h4><div class="wsslot"></div><div class="wsslot"></div></div>').join('') + '</div>';
+      }
+
+      const listQs = qs.filter(q => inlineIds.indexOf(q.id) < 0 && q.type !== 'word_sort');
       if (listQs.length) {
         body += '<ol class="qs" start="' + (inlineIds.length + 1) + '">';
         listQs.forEach(q => {
-          body += '<li class="q' + (q.type==='writing' ? ' q-writing' : '') + '">';
-          if (q.type === 'writing') {
+          body += '<li class="q' + (q.type==='writing' || q.type==='speaking' ? ' q-writing' : '') + '">';
+          if (q.type === 'speaking') {
+            body += '<div class="qtext">' + esc(q.text||'').replace(/\n/g,'<br>') + '</div>';
+          } else if (q.type === 'writing') {
             body += '<div class="qtext">' + esc(q.text||'').replace(/\n/g,'<br>') + '</div>';
             if (q.image) body += (String(q.image).trim().slice(0,4).toLowerCase() === '<svg' ? '<div class="paper-img">' + q.image + '</div>' : '<img class="paper-img" src="' + q.image + '">');
             if (q.tasks && q.tasks.length) {
@@ -3346,6 +3600,13 @@ function buildTestPaper(id, withAnswers) {
   }
 
   const css = `
+    .wsbank { display:flex; flex-wrap:wrap; gap:6px 10px; border:1px solid var(--line); border-radius:8px;
+      padding:9px 11px; margin:8px 0 12px; background:var(--tint); }
+    .wsbank span { font-size:12.5px; font-weight:600; }
+    .wsgroups { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:10px; }
+    .wsgrp { border:1px solid var(--line); border-radius:8px; padding:7px 8px; break-inside:avoid; }
+    .wsgrp h4 { margin:0 0 6px; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); }
+    .wsslot { border-bottom:1px solid var(--line); height:19px; margin-bottom:6px; }
     :root { --ink:#1a1a1c; --blue:#007AFF; --muted:#6b6b73; --line:#dcdce1; --tint:#f2f7ff; --green:#0a7d28;
       --serif:'DM Serif Display', Georgia, 'Times New Roman', serif;
       --sans:'DM Sans', -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif; }
@@ -3939,7 +4200,7 @@ function trackPlay(secId, maxPlays) {
 }
 
 function sectionIcon(type) {
-  return { listening:'🎧', reading:'📖', grammar:'✏️', vocabulary:'💬', writing:'📝' }[type] || '📋';
+  return { listening:'🎧', reading:'📖', grammar:'✏️', vocabulary:'💬', writing:'📝', speaking:'🗣️' }[type] || '📋';
 }
 
 function openModal(html, size) {
@@ -3975,7 +4236,14 @@ const LEVEL_META = {
   b1:{color:'#007AFF',light:'#EAF3FF',code:'B1',label:'Pre-Intermediate'},
   b1plus:{color:'#AF52DE',light:'#F5EFFE',code:'B1+',label:'Intermediate'},
   b2:{color:'#FF3B30',light:'#FFEEED',code:'B2',label:'Upper-Intermediate'},
+  // Kids Programme levels (Family & Friends 1-4). Stored as "K1".."K4" on tests + student_accounts.
+  k1:{color:'#AF52DE',light:'#F5EFFE',code:'L1',label:'Family & Friends 1'},
+  k2:{color:'#AF52DE',light:'#F5EFFE',code:'L2',label:'Family & Friends 2'},
+  k3:{color:'#AF52DE',light:'#F5EFFE',code:'L3',label:'Family & Friends 3'},
+  k4:{color:'#AF52DE',light:'#F5EFFE',code:'L4',label:'Family & Friends 4'},
 };
+// '1'..'4' when the page id is a kids level, else null.
+function kidsLevelOf(pageId){ const m=/^k([1-4])$/.exec(pageId||''); return m ? m[1] : null; }
 // Map any stored level string (e.g. "B1+", "A2") to the internal page id used in the UI.
 function levelToPageId(lvl){
   if(!lvl) return 'b1';
@@ -3993,6 +4261,7 @@ const SECTION_DESC = {
   grammar: 'Grammar & use of English',
   vocabulary: 'Vocabulary',
   writing: 'Writing (graded by your teacher)',
+  speaking: 'Speaking (face to face with your teacher)',
 };
 
 // Which level cards are flipped, and to which set: lid -> 'mock' | 'official'
@@ -4051,7 +4320,11 @@ function renderHome() {
     }
   }
   const wrap=document.getElementById('level-cards');
-  if(wrap) wrap.innerHTML = ['a1','a2','b1','b1plus','b2'].map(levelCardHtml).join('');
+  // Kids students never see the General English levels - only their own kids card below.
+  const kidsStudent = CURRENT.role==='student' && kidsLevelOf(STUDENT_ACCESS.pageId);
+  const geHead=document.getElementById('ge-head');
+  if(geHead) geHead.style.display = kidsStudent ? 'none' : '';
+  if(wrap) wrap.innerHTML = kidsStudent ? '' : ['a1','a2','b1','b1plus','b2'].map(levelCardHtml).join('');
   // Re-apply any flipped state (e.g. after a re-render)
   Object.keys(HOME_OPEN).forEach(lid=>{
     const card=document.getElementById('lvlcard-'+lid);
@@ -4068,21 +4341,31 @@ function renderKidsHome(){
   const head=document.getElementById('kids-head'), wrap=document.getElementById('kids-cards');
   if(!wrap) return;
   const isStaff = CURRENT && (CURRENT.role==='admin' || CURRENT.role==='owner');
-  if(!isStaff){ if(head) head.style.display='none'; wrap.innerHTML=''; return; }
+  const myKidLv = CURRENT && CURRENT.role==='student' ? kidsLevelOf(STUDENT_ACCESS.pageId) : null;
+  if(!isStaff && !myKidLv){ if(head) head.style.display='none'; wrap.innerHTML=''; return; }
   if(head) head.style.display='block';
-  wrap.innerHTML = ['1','2','3','4'].map(kidsCardHtml).join('');
+  const kt=document.getElementById('kids-head-title'), ks=document.getElementById('kids-head-sub');
+  if(kt) kt.textContent = isStaff ? 'Kids Programme' : 'Your tests';
+  if(ks) ks.textContent = isStaff
+    ? 'Family & Friends \u2014 online tests, plus a printable paper copy with a built-in exam report.'
+    : 'Flip your card to open your test. Your teacher reads the listening part out in class.';
+  wrap.innerHTML = (isStaff ? ['1','2','3','4'] : [myKidLv]).map(kidsCardHtml).join('');
   Object.keys(KIDS_OPEN).forEach(lv=>{
     const card=document.getElementById('kidscard-'+lv);
     if(card){ card.classList.add('flipped'); renderKidsBack(lv, KIDS_OPEN[lv]); }
   });
 }
 
+function kidsOnlineTest(lv, which){ return DB.tests.find(t => t.id === 'k'+lv+'_'+which); }
+
 function kidsCardHtml(lv){
   const t=KIDS_TESTS[lv]; if(!t) return '';
   const has=x=>x&&x.doc;
+  const isStaff = CURRENT.role==='admin' || CURRENT.role==='owner';
   const info=[];
-  info.push(['📄','Format','Printable paper test']);
-  info.push(['📊','Report','Built-in exam report']);
+  info.push(['💻','Format','Online test · marked automatically']);
+  info.push(isStaff ? ['📄','Paper','Printable copy + exam report']
+                    : ['🎧','Listening','Read out by your teacher']);
   info.push(['📝','Mid-Term', has(t.mid) ? (t.mid.marks+' marks · '+t.mid.time) : 'Coming soon']);
   info.push(['🏁','Final', has(t.final) ? (t.final.marks+' marks · '+t.final.time) : 'Coming soon']);
   const infoRows=info.map(r=>'<div class="lvl-info-row"><span class="lvl-info-ic">'+r[0]+'</span><span class="lvl-info-txt">'+r[1]+'</span><span class="lvl-info-val">'+r[2]+'</span></div>').join('');
@@ -4117,33 +4400,41 @@ function renderKidsBack(lv, which){
   card.querySelectorAll('.lvl-back-tab').forEach(b=>b.classList.toggle('active', b.dataset.mode===which));
   const sub=card.querySelector('.lvl-back-sub'); if(sub) sub.textContent = which==='mid' ? 'Mid-Term Test' : 'Final Test';
   const list=card.querySelector('.lvl-back-list'); if(!list) return;
-  const spec=t[which];
-  if(spec && spec.doc){
-    const base=which==='mid'?'Mid-Term':'Final';
-    const flipRow=(s,title,tag,tagStyle)=>
+  const isStaff = CURRENT.role==='admin' || CURRENT.role==='owner';
+  const base = which==='mid' ? 'Mid-Term' : 'Final';
+  const online = kidsOnlineTest(lv, which);
+  let html = '';
+  if(online){
+    html += '<div class="lvl-back-note">'+(CURRENT.role==='student'
+      ? '⚠️ Your teacher opens this test for you. The listening part is read out in class.'
+      : '⚠️ Assessed — students see this only during a granted window.')+'</div>' + flipTestRow(online);
+  } else if(CURRENT.role==='student'){
+    html += '<div class="lvl-back-empty">Your teacher will open this test<br>for you when it is time.</div>';
+  }
+  // Paper version: teacher tool only (student / teacher / exam-report views + answer key).
+  if(isStaff){
+    const paperRow=(sp,title,tag,tagStyle)=>
       '<div class="flip-row">'+
         '<div class="flip-row-main"><div class="flip-row-title">'+title+'</div>'+
-        '<div class="flip-row-meta"><span class="flip-row-tag" style="'+tagStyle+'">'+tag+'</span>'+s.marks+' marks · '+s.time+'</div></div>'+
+        '<div class="flip-row-meta"><span class="flip-row-tag" style="'+tagStyle+'">'+tag+'</span>'+sp.marks+' marks · '+sp.time+'</div></div>'+
         '<div class="flip-row-actions">'+
-          '<button class="flip-btn pdf" title="Download as an HTML file" onclick="downloadKidsDoc(\''+s.doc+'\')">&#8681; HTML</button>'+
-          '<button class="flip-btn start" onclick="openKidsDoc(\''+s.doc+'\')">Open &rarr;</button>'+
+          '<button class="flip-btn pdf" title="Download as an HTML file" onclick="downloadKidsDoc(\''+sp.doc+'\')">&#8681; HTML</button>'+
+          '<button class="flip-btn start" onclick="openKidsDoc(\''+sp.doc+'\')">Open &rarr;</button>'+
         '</div>'+
       '</div>';
-    let rows=flipRow(spec, t.label+' · '+base, (which==='mid'?'MID':'FINAL'), 'background:#AF52DE1f;color:#AF52DE;');
-    const rt=t[which+'Retake'];
-    if(rt && rt.doc) rows+=flipRow(rt, t.label+' · '+base+' retake', 'RETAKE', 'background:#FF95001f;color:#FF9500;');
-    list.innerHTML =
-      '<div class="lvl-back-note">Opens in a new tab. Use the top switch for Student / Teacher / Exam report, then print or save.'+
-      (rt&&rt.doc?' The retake is a second, equivalent paper for students who did not pass.':'')+'</div>'+
-      rows;
-  } else {
-    list.innerHTML = '<div class="lvl-back-empty">This test is being prepared.<br>Check back soon.</div>';
+    const spec=t[which], rt=t[which+'Retake'];
+    if(spec && spec.doc){
+      html += '<div class="lvl-back-note">📄 Paper version — opens in a new tab. Use the top switch for Student / Teacher / Exam report, then print or save.</div>'+
+        paperRow(spec, t.label+' · '+base, (which==='mid'?'MID':'FINAL'), 'background:#AF52DE1f;color:#AF52DE;')+
+        (rt && rt.doc ? paperRow(rt, t.label+' · '+base+' retake', 'RETAKE', 'background:#FF95001f;color:#FF9500;') : '');
+    }
   }
+  list.innerHTML = html || '<div class="lvl-back-empty">This test is being prepared.<br>Check back soon.</div>';
 }
 
 function flipKids(lv, which){
   const t=KIDS_TESTS[lv]||{};
-  if(!(t[which]&&t[which].doc)){ showToast('That test is being prepared.','error'); return; }
+  if(!(t[which]&&t[which].doc) && !kidsOnlineTest(lv,which)){ showToast('That test is being prepared.','error'); return; }
   KIDS_OPEN[lv]=which;
   renderKidsBack(lv, which);
   const card=document.getElementById('kidscard-'+lv);
@@ -4207,7 +4498,8 @@ function flipTestRow(t){
     '<div class="flip-row-main">'+
       '<div class="flip-row-title">'+escapeHtml(t.title)+'</div>'+
       '<div class="flip-row-meta"><span class="flip-row-tag" style="background:'+tag[1]+'1f;color:'+tag[1]+';">'+tag[0]+'</span>'+
-        (empty?'Coming soon':t.totalPoints+' pts &middot; '+mins+' min')+'</div>'+
+        (t.verified?'<span class="sv-badge">&#10003; Sevenine Verified</span>':'')+
+        '<span>'+(empty?'Coming soon':t.totalPoints+' pts &middot; '+mins+' min')+'</span></div>'+
     '</div>'+
     (empty?'':'<div class="flip-row-actions">'+
       (isStaff?'<button class="flip-btn pdf" title="Download printable paper test" onclick="event.stopPropagation();downloadTestPDF(\''+t.id+'\')">&#128196;</button>':'')+
@@ -4334,6 +4626,8 @@ function renderTestInfo(lid) {
       if (has('multiple_choice')) bits.push('multiple choice');
       if (has('fill_blank')) bits.push('gap-fill');
       format = (bits.join(', ') || 'vocabulary') + '.';
+    } else if (s.type === 'speaking') {
+      format = 'Face to face with your teacher — marked on the spot.';
     } else if (s.type === 'writing') {
       // Surface only the GENERIC task type (e.g. "review", "email"), never the topic
       const wq = qs[0];
@@ -4376,7 +4670,7 @@ function renderTestInfo(lid) {
     return {
       icon: sectionIcon(s.type),
       title: s.title,
-      meta: s.points + ' pts' + (qcount ? ' · ' + qcount + (s.type==='writing'?' task':' Qs') + (qcount>1&&s.type!=='writing'?'':'') : ''),
+      meta: s.points + ' pts' + (qcount ? ' · ' + qcount + (s.type==='writing'||s.type==='speaking'?' task':' Qs') + (qcount>1&&s.type!=='writing'?'':'') : ''),
       format: format
     };
   }
@@ -4533,6 +4827,7 @@ function testCard(t) {
   return '<div class="test-card" data-type="'+t.type+'" onclick="selectTest(\''+t.id+'\')">'+
     '<div class="test-card-top">'+
     '<span class="badge '+badgeClass+'">'+typeLabel+'</span>'+
+    (t.verified?'<span class="sv-badge">&#10003; Sevenine Verified</span>':'')+
     '<span class="test-card-stat">'+t.totalPoints+' pts &middot; '+mins+' min</span>'+
     '</div>'+
     '<div class="test-card-title">'+t.title+'</div>'+
