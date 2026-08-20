@@ -185,6 +185,12 @@ body {
 @media (prefers-reduced-motion: reduce){.test-grid-sm .test-card,.level-page.active,.mode-pane{animation:none!important}}
 /* "Sevenine Verified": tests written in-house and checked against the coursebook syllabus,
    as opposed to the publisher papers the platform started with. */
+/* Staff running a test themselves = local preview, never saved. Say so loudly:
+   a teacher sitting a child at their own login loses the whole attempt otherwise. */
+.preview-flag { display:flex; align-items:flex-start; gap:12px; background:#FFF3E0; border:1px solid #FFCC80;
+  border-radius:14px; padding:14px 18px; margin-bottom:18px; font-size:13.5px; color:var(--g2); line-height:1.5; }
+.preview-flag strong { color:#B26A00; }
+
 .sv-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800;
   letter-spacing: .04em; text-transform: uppercase; color: var(--blue); background: var(--blu-lt);
   border: 1px solid #cfe3ff; border-radius: 20px; padding: 3px 9px; white-space: nowrap; }
@@ -1456,7 +1462,11 @@ function selectTest(testId) {
   document.getElementById('entry-badge').innerHTML = `<span class="badge ${badgeCls}">${typeLabel}</span>` +
     (test.verified ? ` <span class="sv-badge sv-badge-lg" title="Written by Sevenine for this coursebook">&#10003; Sevenine Verified</span>` : '');
   document.getElementById('entry-test-title').textContent = test.title;
-  document.getElementById('entry-test-meta').textContent = `${test.level} · ${test.totalPoints} points · ${test.sections.length} sections`;
+  document.getElementById('entry-test-meta').innerHTML = `${test.level} · ${test.totalPoints} points · ${test.sections.length} sections` +
+    (CURRENT.role !== 'student'
+      ? `<div style="margin-top:10px;font-size:12.5px;color:#B26A00;background:#FFF3E0;border:1px solid #FFCC80;border-radius:10px;padding:9px 12px;text-align:left;">
+           <b>&#128065; Staff preview</b> — this run is <b>not saved</b>. For a real sitting, open the test for the student and let them log in themselves.</div>`
+      : '');
   const timerMins = test.timerMinutes || (test.type === 'final' ? 80 : 55);
   const timerEl = document.getElementById('entry-test-timer');
   if (timerEl) timerEl.textContent = `⏱ ${timerMins} minutes`;
@@ -1694,6 +1704,12 @@ function renderSection() {
 
   // Content
   let html = '';
+  if (CURRENT.role !== 'student') {
+    html += '<div class="preview-flag"><span style="font-size:18px;">&#128065;</span>'+
+      '<div><strong>Preview only &mdash; this attempt will not be saved.</strong> You are signed in as staff, so '+
+      'nothing here reaches Results or the grading panel. For a real sitting: <b>Open a test</b> for the student, '+
+      'then let them log in with their own username on the device they are using.</div></div>';
+  }
 
   // Section header
   html += `<div class="section-header sh-${sec.type}">
@@ -4503,7 +4519,7 @@ function flipTestRow(t){
     '</div>'+
     (empty?'':'<div class="flip-row-actions">'+
       (isStaff?'<button class="flip-btn pdf" title="Download printable paper test" onclick="event.stopPropagation();downloadTestPDF(\''+t.id+'\')">&#128196;</button>':'')+
-      '<button class="flip-btn start" onclick="selectTest(\''+t.id+'\')">Start &rarr;</button>'+
+      '<button class="flip-btn start" title="'+(isStaff?'Preview only - not saved':'Start the test')+'" onclick="selectTest(\''+t.id+'\')">'+(isStaff?'Preview':'Start')+' &rarr;</button>'+
     '</div>')+
   '</div>';
 }
