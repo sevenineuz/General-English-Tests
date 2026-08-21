@@ -191,6 +191,13 @@ body {
   border-radius:14px; padding:14px 18px; margin-bottom:18px; font-size:13.5px; color:var(--g2); line-height:1.5; }
 .preview-flag strong { color:#B26A00; }
 
+.state-tag { display:inline-flex; align-items:center; gap:4px; font-size:9.5px; font-weight:800; letter-spacing:.04em;
+  text-transform:uppercase; border-radius:20px; padding:2px 8px; white-space:nowrap; }
+.state-tag.inprog { color:#B26A00; background:#FFF3E0; border:1px solid #FFCC80; }
+.state-tag.donetag { color:#1B7F3B; background:#E8F8ED; border:1px solid #A5D6A7; }
+.flip-btn.resume { background:var(--orange) !important; }
+.flip-btn.done { background:var(--g6) !important; color:var(--g4) !important; cursor:default; }
+
 .sv-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800;
   letter-spacing: .04em; text-transform: uppercase; color: var(--blue); background: var(--blu-lt);
   border: 1px solid #cfe3ff; border-radius: 20px; padding: 3px 9px; white-space: nowrap; }
@@ -1332,7 +1339,8 @@ async function loadTestsFromSupabase(){
         DB.tests = data.tests.map(t => ({
           id:t.id, title:t.title, level:t.level, type:t.type,
           timerMinutes:t.timer_minutes, audioPlays:t.audio_plays,
-          totalPoints:t.total_points, sections:t.data, verified:t.verified
+          totalPoints:t.total_points, sections:t.data, verified:t.verified,
+          myOpen:t.my_open, myDone:t.my_done
         }));
       }
     } else {
@@ -1515,9 +1523,24 @@ async function startTest() {
       if (error) throw error;
       if (!data || !data.ok) {
         const msg = (data && data.error) || 'Could not start test';
+        // A toast fades before a child has read it, and they just tap Start again.
+        // Anything that ends the test for good gets a dialog they have to close.
+        if (data && (data.expired || data.already_done || data.no_access)) {
+          const icon = data.already_done ? '&#10003;' : data.expired ? '&#9203;' : '&#128274;';
+          const head = data.already_done ? 'You have finished this test'
+                     : data.expired ? 'Your time is up'
+                     : 'This test is not open yet';
+          openModal('<div style="text-align:center;padding:8px;">'+
+            '<div style="font-size:40px;margin-bottom:10px;">'+icon+'</div>'+
+            '<div style="font-family:\'DM Serif Display\',serif;font-size:21px;margin-bottom:8px;">'+head+'</div>'+
+            '<div style="font-size:14px;color:var(--g3);line-height:1.55;margin-bottom:20px;">'+escapeHtml(msg)+'</div>'+
+            '<button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="closeModal();showView(\'home\')">OK</button>'+
+            '</div>');
+          await loadTestsFromSupabase();   // refresh so the card shows Finished
+          showView('home');
+          return;
+        }
         showToast(msg, 'error');
-        // Time ran out or already completed → send them back home and refresh results
-        if (data && (data.expired || data.already_done)) { showView('home'); }
         return;
       }
       state.currentAttemptId = data.attempt.id;
@@ -4080,6 +4103,12 @@ function flagCheat(reason) {
     }
   }
 
+  // A kids test counts silently. A tablet notification, the on-screen keyboard or the
+  // screen dimming all blur the page; a red "suspicious activity" box in front of a
+  // six-year-old frightens them and blocks the test. The count still reaches the teacher.
+  const t = getTest();
+  if (t && /^k[1-4]$/i.test(levelToPageId(t.level || ''))) return;
+
   // Show warning overlay
   const overlay = document.getElementById('cheat-overlay');
   const countEl = document.getElementById('cheat-count');
@@ -4515,11 +4544,16 @@ function flipTestRow(t){
       '<div class="flip-row-title">'+escapeHtml(t.title)+'</div>'+
       '<div class="flip-row-meta"><span class="flip-row-tag" style="background:'+tag[1]+'1f;color:'+tag[1]+';">'+tag[0]+'</span>'+
         (t.verified?'<span class="sv-badge">&#10003; Sevenine Verified</span>':'')+
+        (t.myOpen?'<span class="state-tag inprog">&#9203; In progress &mdash; answers saved</span>':'')+
+        (t.myDone?'<span class="state-tag donetag">&#10003; Finished</span>':'')+
         '<span>'+(empty?'Coming soon':t.totalPoints+' pts &middot; '+mins+' min')+'</span></div>'+
     '</div>'+
     (empty?'':'<div class="flip-row-actions">'+
       (isStaff?'<button class="flip-btn pdf" title="Download printable paper test" onclick="event.stopPropagation();downloadTestPDF(\''+t.id+'\')">&#128196;</button>':'')+
-      '<button class="flip-btn start" title="'+(isStaff?'Preview only - not saved':'Start the test')+'" onclick="selectTest(\''+t.id+'\')">'+(isStaff?'Preview':'Start')+' &rarr;</button>'+
+      (t.myDone && !isStaff
+        ? '<button class="flip-btn done" disabled title="You have already finished this test">&#10003; Done</button>'
+        : '<button class="flip-btn start'+(t.myOpen?' resume':'')+'" title="'+(isStaff?'Preview only - not saved':(t.myOpen?'Your answers are saved - pick up where you left off':'Start the test'))+'" onclick="selectTest(\''+t.id+'\')">'+
+          (isStaff?'Preview':(t.myOpen?'Continue':'Start'))+' &rarr;</button>')+
     '</div>')+
   '</div>';
 }
@@ -4746,8 +4780,21 @@ function switchMode(lid, mode) {
 function maybeShowResumeBanner() {
   const banner = document.getElementById('resume-banner');
   if (!banner) return;
-  // Students resume server-side by re-opening the test; this local banner is staff-preview only.
-  if (CURRENT.role === 'student') { banner.style.display = 'none'; return; }
+  // Students resume server-side by re-opening the test. Say so on the home page, or a child
+  // who reloaded (or whose tablet died) sees a plain "Start" and assumes the work is gone.
+  if (CURRENT.role === 'student') {
+    const open = (DB.tests || []).find(t => t.myOpen);
+    if (!open) { banner.style.display = 'none'; return; }
+    banner.style.display = 'flex';
+    banner.innerHTML =
+      '<div style="flex:1;">' +
+        '<div style="font-weight:700;font-size:14px;color:var(--g1);">&#9203; You have a test in progress</div>' +
+        '<div style="font-size:13px;color:var(--g3);margin-top:2px;">' +
+          escapeHtml(open.title) + ' &middot; your answers are saved &mdash; carry on where you left off.</div>' +
+      '</div>' +
+      '<button class="btn btn-primary btn-sm" onclick="selectTest(\'' + open.id + '\')">Continue</button>';
+    return;
+  }
   const att = findResumableAttempt();
   if (!att) { banner.style.display = 'none'; return; }
   const test = DB.tests.find(t => t.id === att.testId);
