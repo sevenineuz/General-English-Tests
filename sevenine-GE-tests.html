@@ -1241,10 +1241,39 @@ function initSupabase(){
         // (caused staff login to hang until a manual page refresh).
         auth: { lock: (name, acquireTimeout, fn) => fn() }
       });
+      wrapRpcForExpiredSession();
       return true;
     }
   } catch(e) { console.error('Supabase init failed', e); }
   return false;
+}
+
+// A staff login can lapse while the panel is still on screen. Every admin_* call then
+// fails with "permission denied", the page still looks logged in, and buttons simply do
+// nothing — which reads as "the platform is broken". Say what actually happened instead.
+let SESSION_LAPSED = false;
+function wrapRpcForExpiredSession(){
+  const _rpc = sb.rpc.bind(sb);
+  sb.rpc = async function(fn, args){
+    const res = await _rpc(fn, args);
+    const msg = res && res.error && res.error.message || '';
+    if (String(fn).indexOf('admin_') === 0 && /permission denied|JWT|not authenticated|invalid token/i.test(msg)) {
+      showSessionLapsed();
+    }
+    return res;
+  };
+}
+function showSessionLapsed(){
+  if (SESSION_LAPSED) return;          // one dialog, not one per failed call
+  SESSION_LAPSED = true;
+  openModal('<div style="text-align:center;padding:8px;">'+
+    '<div style="font-size:40px;margin-bottom:10px;">&#128274;</div>'+
+    '<div style="font-family:\'DM Serif Display\',serif;font-size:21px;margin-bottom:8px;">Your session has ended</div>'+
+    '<div style="font-size:14px;color:var(--g3);line-height:1.55;margin-bottom:20px;">'+
+      'You have been signed out, so nothing can be loaded or saved. Please log in again &mdash; '+
+      'any grades you have just typed have <b>not</b> been saved.</div>'+
+    '<button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogout()">Log in again</button>'+
+    '</div>');
 }
 initSupabase();
 let CURRENT = { role: null, studentToken: null, student: null, staffEmail: null };
