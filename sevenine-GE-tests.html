@@ -274,6 +274,23 @@ body {
 .hist-arrow { color:var(--g4); font-size:13px; }
 .hist-detail { padding:12px 14px; border-top:1px solid var(--g6); background:var(--g7,#fafafa); max-height:340px; overflow-y:auto; }
 .hist-cheats { background:#FFF8E8; border:1px solid #FBE7B5; border-radius:8px; padding:8px 12px; margin-bottom:12px; }
+/* Per-question breakdown of one paper (Results -> Details) */
+.rd-head { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:2px 0 16px; border-bottom:1px solid var(--g5); margin-bottom:16px; }
+.rd-score { font-family:'DM Serif Display',serif; font-size:30px; line-height:1; }
+.rd-sec { margin:18px 0 6px; display:flex; align-items:center; gap:10px; }
+.rd-sec-title { font-family:'DM Serif Display',serif; font-size:16px; color:var(--g1); }
+.rd-sec-score { margin-left:auto; font-size:12px; font-weight:700; color:var(--g3); background:var(--g6); border-radius:20px; padding:3px 11px; }
+.rd-q { display:grid; grid-template-columns:26px 1fr auto; gap:4px 10px; padding:8px 0; border-bottom:1px solid var(--g6); }
+.rd-mark { font-size:15px; line-height:1.4; }
+.rd-qtext { font-size:13px; color:var(--g2); font-weight:600; }
+.rd-pts { font-size:11.5px; color:var(--g4); font-weight:700; white-space:nowrap; }
+.rd-ans { grid-column:2 / span 2; font-size:12.5px; color:var(--g3); }
+.rd-ans .given { font-weight:700; color:var(--g2); }
+.rd-ans .want { font-weight:700; color:var(--green); }
+.rd-ans .blank { color:var(--g4); font-style:italic; }
+.rd-wr { grid-column:2 / span 2; white-space:pre-wrap; font-size:12.5px; color:var(--g2); background:var(--g6);
+  border-radius:10px; padding:9px 12px; margin-top:4px; }
+
 .hist-q { padding:7px 0; border-bottom:1px solid var(--g6); }
 .hist-q-text { font-size:12.5px; color:var(--g2); font-weight:600; }
 .hist-q-ans { font-size:12.5px; color:var(--g3); margin-top:2px; }
@@ -3189,7 +3206,7 @@ async function loadAdminResults(testId, status){
     _resultsCache = rows;
     if (!rows.length) { inner.innerHTML = `<div class="empty-state"><div class="empty-state-icon">📊</div><div class="empty-state-title">No results yet</div></div>`; return; }
     inner.innerHTML = `<table class="results-table">
-      <thead><tr><th>Student</th><th>Test</th><th>Score</th><th>Status</th><th>Flags</th><th>Date</th></tr></thead>
+      <thead><tr><th>Student</th><th>Test</th><th>Score</th><th>Status</th><th>Flags</th><th>Date</th><th></th></tr></thead>
       <tbody>${rows.map(a => {
         const sc = a.total_score, mx = a.max_score;
         const pct = mx ? Math.round((sc/mx)*100) : 0;
@@ -3203,10 +3220,128 @@ async function loadAdminResults(testId, status){
           <td>${scoreStr}</td>
           <td>${sb}</td><td>${cb}</td>
           <td style="color:var(--g4);font-size:12px;">${a.submitted_at?new Date(a.submitted_at).toLocaleDateString():'—'}</td>
+          <td><button class="btn btn-ghost btn-sm" onclick="openResultDetail('${a.id}')">🔍 Details</button></td>
         </tr>`;
       }).join('')}</tbody>
     </table>`;
   }catch(e){ console.error(e); inner.innerHTML = '<div style="color:var(--red);">Could not load results. '+(e.message||'')+'</div>'; }
+}
+
+// ══════════════════════════════════════════
+// One paper, question by question — what the student answered, what was wanted,
+// and where the marks went. Opened from the Results table.
+// ══════════════════════════════════════════
+async function openResultDetail(attemptId){
+  openModal('<div style="min-height:120px;color:var(--g4);font-size:13px;">Loading…</div>', 'wide');
+  let att;
+  try{
+    const { data, error } = await sb.rpc('admin_get_attempt', { p_attempt_id: attemptId });
+    if(error) throw error;
+    if(!data || !data.ok || !data.attempt){ showToast((data&&data.error)||'Could not load','error'); closeModal(); return; }
+    att = data.attempt;
+  }catch(e){ showToast('Error: '+(e.message||e),'error'); closeModal(); return; }
+
+  const meta = (_resultsCache||[]).find(r => r.id === attemptId) || {};
+  const ans = att.answers || {};
+  const secs = (att.test_data || []).slice().sort((a,b)=>(a.position||0)-(b.position||0));
+  const pct = att.max_score ? Math.round((att.total_score/att.max_score)*100) : 0;
+  const col = pct >= PASS_PCT ? 'var(--green)' : pct >= 50 ? 'var(--orange)' : 'var(--red)';
+
+  let body =
+    '<div class="modal-title">' + escapeHtml(att.student_name || meta.username || 'Student') + '</div>' +
+    '<div class="modal-sub">' + escapeHtml(att.test_title || att.test_id) + '</div>' +
+    '<div class="rd-head">' +
+      '<div class="rd-score" style="color:' + col + ';">' + att.total_score + ' <span style="font-size:16px;color:var(--g4);">/ ' + att.max_score + '</span></div>' +
+      '<div style="font-size:13px;font-weight:700;color:' + col + ';">' + pct + '%</div>' +
+      (att.status === 'graded'
+        ? '<span class="badge badge-green">Graded</span>'
+        : '<span class="badge badge-orange">Writing pending</span>') +
+      ((meta.cheat_count||0) > 0 ? '<span class="badge badge-red">&#9888;&#65039; ' + meta.cheat_count + ' left the page</span>' : '') +
+      (meta.submitted_at ? '<span style="margin-left:auto;font-size:12px;color:var(--g4);">' + new Date(meta.submitted_at).toLocaleString() + '</span>' : '') +
+    '</div>';
+
+  secs.forEach(sec => {
+    const qs = (sec.questions || []).slice().sort((a,b)=>(a.position||0)-(b.position||0));
+    let got = 0, poss = 0, pending = false;
+    qs.forEach(q => {
+      const r = ans[q.id] || {};
+      poss += (q.points || 0);
+      got  += (r.score || 0);
+      if (r.needsGrading) pending = true;
+    });
+    body += '<div class="rd-sec"><span>' + sectionIcon(sec.type) + '</span>' +
+            '<span class="rd-sec-title">' + escapeHtml(sec.title || sec.type) + '</span>' +
+            '<span class="rd-sec-score">' + got + ' / ' + poss + (pending ? ' &middot; pending' : '') + '</span></div>';
+
+    qs.forEach((q, i) => {
+      const r = ans[q.id] || {};
+      const given = (r.answer === undefined || r.answer === '') ? '' : String(r.answer);
+      const label = 'Q' + (i + 1);
+      const pts = (r.score != null ? r.score : 0) + '/' + (q.points || 0);
+
+      if (q.type === 'speaking' || q.type === 'writing') {
+        const icon = q.type === 'speaking' ? '&#128483;&#65039;' : '&#9997;&#65039;';
+        const name = q.type === 'speaking' ? 'Speaking (face to face)' : 'Writing';
+        body += '<div class="rd-q"><div class="rd-mark">' + icon + '</div>' +
+          '<div class="rd-qtext">' + label + ' &middot; ' + name + (r.needsGrading ? ' <span class="sb-badge sb-amber">needs grading</span>' : '') + '</div>' +
+          '<div class="rd-pts">' + (r.needsGrading ? '—' : pts) + '</div>' +
+          (q.type === 'writing'
+            ? '<div class="rd-wr">' + (given ? escapeHtml(given) : '<span class="blank">(nothing written)</span>') + '</div>'
+            : '') +
+        '</div>';
+        return;
+      }
+
+      const ok = r.isCorrect === true;
+      const mark = ok ? '<span style="color:var(--green);">&#10003;</span>' : '<span style="color:var(--red);">&#10007;</span>';
+      // word_sort questions are one word each; the "text" IS the word
+      const qtext = (q.text || '').replace(/\n/g, ' ').replace(/_{3,}/g, '_____');
+      // Multiple choice stores a letter — a teacher needs the word, not "a".
+      const letters = ['a','b','c','d','e','f','g','h'];
+      const asText = v => {
+        const key = String(v || '').trim().toLowerCase();
+        if (q.type === 'multiple_choice' && q.options) {
+          const ix = letters.indexOf(key);
+          if (ix >= 0 && q.options[ix] != null) return key.toUpperCase() + ' · ' + q.options[ix];
+        }
+        return String(v || '');
+      };
+      let detail = '<div class="rd-ans">Answered: ' +
+        (given ? '<span class="given">' + escapeHtml(asText(given)) + '</span>' : '<span class="blank">left blank</span>');
+      if (!ok) {
+        const want = String(q.correct || '').split('|').map(asText).join(' / ');
+        detail += ' &nbsp;&middot;&nbsp; Correct: <span class="want">' + escapeHtml(want) + '</span>';
+      }
+      detail += '</div>';
+
+      body += '<div class="rd-q">' +
+        '<div class="rd-mark">' + mark + '</div>' +
+        '<div class="rd-qtext">' + label + ' &middot; ' + escapeHtml(qtext) + '</div>' +
+        '<div class="rd-pts">' + pts + '</div>' + detail +
+      '</div>';
+    });
+  });
+
+  body += '<div style="display:flex;gap:10px;margin-top:22px;">' +
+    '<button class="btn btn-ghost" style="flex:1;justify-content:center;" onclick="closeModal()">Close</button>' +
+    '<button class="btn btn-primary" style="flex:1;justify-content:center;" onclick="printResultDetail()">&#128424; Print</button>' +
+  '</div>';
+
+  document.getElementById('modal-content').innerHTML = body;
+}
+
+// Print just the breakdown, not the whole admin page behind it.
+function printResultDetail(){
+  const c = document.getElementById('modal-content');
+  if(!c) return;
+  const w = window.open('', '_blank');
+  if(!w){ showToast('Please allow pop-ups to print','error'); return; }
+  const css = [...document.querySelectorAll('style')].map(s=>s.textContent).join('\n');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="utf-8"><title>Result</title><style>' + css +
+    ' body{padding:26px;background:#fff;} .btn{display:none!important;}</style></head><body>' +
+    c.innerHTML + '</body></html>');
+  w.document.close();
+  setTimeout(()=>{ w.focus(); w.print(); }, 350);
 }
 
 function exportCSV() {
