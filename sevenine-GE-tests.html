@@ -834,68 +834,122 @@ select.field-input { cursor: pointer; }
 .ti-tip strong{color:var(--g1);font-size:12.5px;}
 @media(max-width:768px){.ti-tips{grid-template-columns:1fr;}.ti-sec-meta{display:none;}}
 @media(max-width:768px){.mode-switch{display:flex;width:100%;}.mode-btn{flex:1;text-align:center;}}@media(max-width:768px){.level-nav{display:none;}.level-content{padding:20px 16px;}}
-/* ── Home: fixed-size level cards that flip to reveal their tests ── */
-.home-wrap{max-width:1180px;margin:0 auto;padding:34px 28px 44px;}
-.home-head{margin:2px 0 24px;}
-.home-title{font-family:'DM Serif Display',serif;font-size:30px;letter-spacing:-.5px;color:var(--g1);margin-bottom:4px;}
-.home-sub{font-size:14px;color:var(--g3);}
-.level-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:22px;}
-.lvl-flip{height:392px;perspective:1800px;}
+/* ── Home: level cards (flip to reveal their tests) — 2026-09 redesign ── */
+.home-wrap{max-width:1180px;margin:0 auto;padding:40px 28px 52px;}
+.home-head{margin:0 0 26px;}
+.home-eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--g4);margin-bottom:8px;}
+.home-title{font-family:'DM Serif Display',serif;font-size:34px;letter-spacing:-.6px;line-height:1.08;color:var(--g1);margin-bottom:6px;}
+.home-sub{font-size:14px;color:var(--g3);max-width:560px;line-height:1.5;}
+.home-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;font-weight:600;color:var(--g3);}
+.home-legend span{display:inline-flex;align-items:center;gap:6px;}
+.home-legend i{width:8px;height:8px;border-radius:50%;display:inline-block;}
+.level-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:24px;}
+
+.lvl-flip{height:408px;perspective:1800px;}
 .lvl-flip-inner{position:relative;width:100%;height:100%;transition:transform .62s cubic-bezier(.2,.75,.3,1);transform-style:preserve-3d;}
 .lvl-flip.flipped .lvl-flip-inner{transform:rotateY(180deg);}
-.lvl-face{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--white);border:1px solid rgba(0,0,0,.06);border-radius:22px;padding:24px 24px 22px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 18px 40px -24px rgba(0,0,0,.3);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;}
-.lvl-face::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--accent,#007AFF);}
-.lvl-back{transform:rotateY(180deg);}
-.lvl-flip.locked .lvl-face{opacity:.62;}
-/* front */
-.lvl-card-head{display:flex;align-items:center;gap:14px;}
-.lvl-badge{flex-shrink:0;width:50px;height:50px;border-radius:14px;background:var(--accent,#007AFF);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-weight:800;font-size:16px;letter-spacing:.02em;box-shadow:0 6px 16px -8px var(--accent,#007AFF);}
-.lvl-titles{flex:1;min-width:0;}
-.lvl-name{font-family:'DM Serif Display',serif;font-size:21px;color:var(--g1);line-height:1.14;}
-.lvl-meta{font-size:12.5px;color:var(--g4);font-weight:600;margin-top:4px;}
-.lvl-lock{flex-shrink:0;font-size:15px;opacity:.7;}
-.lvl-info{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px;margin:14px 0 8px;}
-.lvl-info-row{display:flex;align-items:center;gap:11px;padding:8px 2px;border-bottom:1px solid var(--g6);}
-.lvl-info-row:last-child{border-bottom:none;}
-.lvl-info-ic{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:var(--light,#EAF3FF);color:var(--accent,#007AFF);display:flex;align-items:center;justify-content:center;font-size:13px;}
-.lvl-info-txt{flex:1;min-width:0;font-size:12px;color:var(--g3);font-weight:500;}
-.lvl-info-val{font-size:12.5px;font-weight:700;color:var(--g1);text-align:right;white-space:nowrap;}
+.lvl-face{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--white);border:1px solid rgba(0,0,0,.055);border-radius:24px;overflow:hidden;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 22px 44px -30px rgba(0,0,0,.35);transition:box-shadow .25s,transform .25s;}
+.lvl-flip:not(.flipped):hover .lvl-front{transform:translateY(-3px);box-shadow:0 1px 2px rgba(0,0,0,.04),0 30px 54px -30px var(--accent,#007AFF);}
+.lvl-back{transform:rotateY(180deg);padding:20px 20px 16px;}
+
+/* front: tinted hero */
+.lvl-hero{position:relative;padding:22px 24px 20px;background:var(--light,#EAF3FF);background:
+  radial-gradient(120% 140% at 100% 0%, color-mix(in srgb,var(--accent) 22%,transparent) 0%, transparent 60%),
+  linear-gradient(180deg,var(--light,#EAF3FF) 0%, color-mix(in srgb,var(--light,#EAF3FF) 45%,#fff) 100%);
+  border-bottom:1px solid color-mix(in srgb,var(--accent) 12%,transparent);overflow:hidden;}
+.lvl-hero-top{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1;}
+.lvl-kicker{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:color-mix(in srgb,var(--accent) 80%,#000);}
+.lvl-verified{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--accent);background:#fff;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);padding:4px 9px;border-radius:20px;}
+.lvl-verified svg{width:11px;height:11px;}
+.lvl-code{position:relative;z-index:1;font-family:'DM Serif Display',serif;font-size:56px;line-height:1;letter-spacing:-1.5px;color:var(--accent);margin:14px 0 4px;}
+.lvl-name{position:relative;z-index:1;font-family:'DM Serif Display',serif;font-size:22px;line-height:1.15;color:var(--g1);}
+.lvl-course{position:relative;z-index:1;font-size:12.5px;color:var(--g3);font-weight:500;margin-top:3px;}
+.lvl-watermark{position:absolute;right:-14px;bottom:-44px;font-family:'DM Serif Display',serif;font-size:170px;line-height:1;letter-spacing:-6px;color:var(--accent);opacity:.07;pointer-events:none;user-select:none;}
+
+.lvl-body{flex:1;display:flex;flex-direction:column;padding:18px 24px 22px;}
+.lvl-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--g5);border-radius:16px;overflow:hidden;}
+.lvl-stat{padding:12px 10px 11px;text-align:center;}
+.lvl-stat+.lvl-stat{border-left:1px solid var(--g5);}
+.lvl-stat b{display:block;font-family:'DM Serif Display',serif;font-weight:400;font-size:24px;line-height:1.05;color:var(--g1);}
+.lvl-stat span{display:block;font-size:10.5px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--g4);margin-top:4px;}
+.lvl-mix{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 auto;padding-bottom:16px;}
+.lvl-mix span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--g2);background:var(--g6);border-radius:20px;padding:5px 10px;}
+.lvl-mix i{width:7px;height:7px;border-radius:50%;display:inline-block;}
 .lvl-front-note{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12.5px;color:var(--g4);padding:0 12px;line-height:1.55;}
-.lvl-card-btns{display:flex;gap:10px;}
-.lvl-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 12px;border-radius:13px;border:1px solid var(--g5);background:var(--white);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--g1);transition:all .16s cubic-bezier(.2,.7,.3,1);}
-.lvl-tab:hover{border-color:var(--accent,#007AFF);color:var(--accent,#007AFF);transform:translateY(-1px);box-shadow:0 8px 18px -12px var(--accent,#007AFF);}
-.lvl-flip.locked .lvl-tab{cursor:not-allowed;color:var(--g3);}
-.lvl-flip.locked .lvl-tab:hover{transform:none;border-color:var(--g5);color:var(--g3);box-shadow:none;}
+.lvl-card-btns{display:flex;gap:8px;}
+.lvl-card-btns .lvl-tab{padding:12px 6px;gap:6px;min-width:0;}
+.lvl-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 12px;border-radius:14px;border:1px solid var(--g5);background:var(--white);cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--g1);transition:all .18s cubic-bezier(.2,.7,.3,1);}
+.lvl-tab svg{width:16px;height:16px;flex-shrink:0;}
+.lvl-tab:hover{border-color:var(--accent,#007AFF);color:var(--accent,#007AFF);transform:translateY(-1px);}
+.lvl-tab.primary{background:var(--accent,#007AFF);border-color:var(--accent,#007AFF);color:#fff;box-shadow:0 10px 20px -12px var(--accent,#007AFF);}
+.lvl-tab.primary:hover{color:#fff;filter:brightness(1.05);box-shadow:0 14px 24px -12px var(--accent,#007AFF);}
+.lvl-tab:focus-visible,.lvl-back-tab:focus-visible,.flip-btn:focus-visible,.lvl-flip-back:focus-visible{outline:2px solid var(--accent,#007AFF);outline-offset:2px;}
+
+/* student: own level featured, other levels as small locked chips */
+.level-cards.solo{grid-template-columns:minmax(0,440px) minmax(0,1fr);align-items:stretch;}
+.my-panel{background:var(--white);border:1px solid rgba(0,0,0,.055);border-radius:24px;padding:26px 28px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 22px 44px -30px rgba(0,0,0,.35);display:flex;flex-direction:column;}
+.my-panel h3{font-family:'DM Serif Display',serif;font-weight:400;font-size:24px;color:var(--g1);margin-bottom:4px;}
+.my-panel .my-sub{font-size:13px;color:var(--g3);margin-bottom:20px;}
+.my-progress{height:8px;border-radius:8px;background:var(--g6);overflow:hidden;margin:8px 0 4px;}
+.my-progress>div{height:100%;border-radius:8px;background:var(--accent,#007AFF);transition:width .6s cubic-bezier(.2,.7,.3,1);}
+.my-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--g6);}
+.my-row:first-of-type{border-top:none;}
+.my-ic{flex-shrink:0;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.my-ic svg{width:18px;height:18px;}
+.my-txt{flex:1;min-width:0;}
+.my-txt b{display:block;font-size:13.5px;color:var(--g1);}
+.my-txt span{display:block;font-size:12px;color:var(--g4);font-weight:600;margin-top:2px;}
+.my-val{font-family:'DM Serif Display',serif;font-size:22px;color:var(--g1);white-space:nowrap;}
+.my-actions{margin-top:auto;padding-top:18px;display:flex;gap:10px;flex-wrap:wrap;}
+@media(max-width:900px){.level-cards.solo{grid-template-columns:1fr;}}
+.other-levels{margin-top:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.other-levels-label{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g4);margin-right:4px;}
+.lvl-chip-locked{display:inline-flex;align-items:center;gap:8px;padding:7px 12px 7px 8px;border-radius:12px;background:var(--white);border:1px solid var(--g5);font-size:12px;font-weight:600;color:var(--g3);cursor:not-allowed;}
+.lvl-chip-locked b{font-family:'DM Serif Display',serif;font-weight:400;font-size:14px;color:var(--c);background:var(--l);border-radius:8px;padding:2px 7px;}
+.lvl-chip-locked svg{width:12px;height:12px;color:var(--g4);}
+
 /* back */
-.lvl-back-head{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
-.lvl-back .lvl-badge{width:40px;height:40px;border-radius:11px;font-size:13px;}
+.lvl-back-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.lvl-back .lvl-badge{flex-shrink:0;min-width:42px;height:42px;padding:0 8px;border-radius:13px;background:var(--light,#EAF3FF);color:var(--accent,#007AFF);display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:19px;letter-spacing:-.3px;}
 .lvl-back-title{flex:1;min-width:0;}
-.lvl-back-name{font-family:'DM Serif Display',serif;font-size:17px;color:var(--g1);line-height:1.1;}
-.lvl-back-sub{font-size:11px;color:var(--accent,#007AFF);font-weight:700;margin-top:2px;}
-.lvl-flip-back{flex-shrink:0;width:34px;height:34px;border-radius:10px;border:1px solid var(--g5);background:var(--white);cursor:pointer;font-size:16px;color:var(--g3);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.lvl-back-name{font-family:'DM Serif Display',serif;font-size:18px;color:var(--g1);line-height:1.1;}
+.lvl-back-sub{font-size:11px;color:var(--g4);font-weight:600;margin-top:3px;}
+.lvl-flip-back{flex-shrink:0;width:34px;height:34px;border-radius:11px;border:1px solid var(--g5);background:var(--white);cursor:pointer;color:var(--g3);display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.lvl-flip-back svg{width:16px;height:16px;}
 .lvl-flip-back:hover{border-color:var(--accent,#007AFF);color:var(--accent,#007AFF);}
-.lvl-back-tabs{display:flex;gap:7px;margin-bottom:12px;}
-.lvl-back-tab{flex:1;padding:8px;border-radius:10px;border:1px solid var(--g5);background:var(--white);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;color:var(--g3);cursor:pointer;transition:all .15s;}
-.lvl-back-tab:hover{color:var(--accent,#007AFF);border-color:var(--accent,#007AFF);}
-.lvl-back-tab.active{background:var(--accent,#007AFF);border-color:var(--accent,#007AFF);color:#fff;}
-.lvl-back-list{flex:1;overflow-y:auto;margin:0 -6px;padding:0 6px;}
-.lvl-back-note{font-size:11px;line-height:1.4;color:#8D6E00;background:#FFF8E1;border:1px solid #FFE082;border-radius:9px;padding:7px 10px;margin-bottom:8px;}
-.lvl-back-empty{font-size:12.5px;color:var(--g4);padding:18px 2px;text-align:center;}
-.flip-row{display:flex;align-items:center;gap:10px;padding:11px 2px;border-bottom:1px solid var(--g6);}
-.flip-row:last-child{border-bottom:none;}
+.lvl-back-tabs{display:flex;gap:4px;margin-bottom:12px;background:var(--g6);border-radius:12px;padding:4px;}
+.lvl-back-tab{flex:1;padding:8px;border-radius:9px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:700;color:var(--g3);cursor:pointer;transition:all .15s;}
+.lvl-back-tab:hover{color:var(--g1);}
+.lvl-back-tab.active{background:var(--white);color:var(--accent,#007AFF);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.lvl-back-list{flex:1;overflow-y:auto;margin:0 -6px;padding:0 6px;scrollbar-width:thin;}
+.lvl-back-note{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--g3);background:var(--g6);border-radius:10px;padding:8px 10px;margin-bottom:8px;}
+.lvl-back-note svg{width:14px;height:14px;flex-shrink:0;margin-top:1px;color:var(--accent,#007AFF);}
+.lvl-back-empty{font-size:12.5px;color:var(--g4);padding:26px 8px;text-align:center;line-height:1.55;}
+.lvl-back-group{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g4);margin:12px 2px 2px;}
+.flip-row{display:flex;align-items:center;gap:10px;padding:11px 8px;margin:0 -8px;border-radius:12px;transition:background .15s;}
+.flip-row:hover{background:var(--g6);}
+.flip-row+.flip-row{box-shadow:inset 0 1px 0 var(--g6);}
+.flip-row:hover+.flip-row,.flip-row+.flip-row:hover{box-shadow:none;}
+.flip-row-dot{flex-shrink:0;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+.flip-row-dot svg{width:16px;height:16px;}
 .flip-row-main{flex:1;min-width:0;}
-.flip-row-title{font-size:13.5px;font-weight:700;color:var(--g1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.flip-row-meta{font-size:11px;color:var(--g4);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.flip-row-title{font-size:13.5px;font-weight:700;color:var(--g1);line-height:1.3;}
+.flip-row-meta{font-size:11.5px;color:var(--g4);font-weight:600;margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .flip-row-meta>span:last-child{white-space:nowrap;}
+.flip-row-actions .flip-btn.start{padding:8px 11px;}
 .flip-row-meta .sv-badge{font-size:9px;padding:2px 7px;}
 .flip-row-tag{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:6px;}
 .flip-row-actions{display:flex;gap:6px;flex-shrink:0;}
-.flip-btn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;transition:transform .12s,filter .15s;}
+.flip-btn{display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;border:none;cursor:pointer;transition:transform .12s,filter .15s;}
 .flip-btn:hover{transform:translateY(-1px);filter:brightness(.96);}
 .flip-btn.start{background:var(--accent,#007AFF);color:#fff;}
-.flip-btn.pdf{background:var(--light,#eef);color:var(--accent,#007AFF);}
-@media (prefers-reduced-motion: reduce){.lvl-flip-inner{transition:none;}}
-@media(max-width:520px){.lvl-card-btns{flex-direction:column;}.home-wrap{padding:22px 16px 32px;}.level-cards{grid-template-columns:1fr;}}
+.flip-btn.pdf{background:var(--light,#eef);color:var(--accent,#007AFF);padding:8px 10px;}
+.flip-btn.pdf svg{width:14px;height:14px;}
+@media (prefers-reduced-motion: reduce){.lvl-flip-inner,.lvl-face{transition:none;}}
+@media(max-width:520px){.home-wrap{padding:24px 16px 36px;}.level-cards,.level-cards.solo{grid-template-columns:1fr;}.my-panel{padding:22px 20px;}.home-title{font-size:28px;}.lvl-flip{height:420px;}.lvl-code{font-size:48px;}}
 </style>
 </head>
 <body>
@@ -950,6 +1004,7 @@ select.field-input { cursor: pointer; }
       <div class="home-sub" id="home-sub">Open a level to view its mock and official tests.</div>
     </div>
     <div class="level-cards" id="level-cards"></div>
+    <div class="other-levels" id="other-levels" style="display:none;"></div>
     <div class="home-head" id="kids-head" style="display:none;margin-top:42px;">
       <div class="home-title" id="kids-head-title">Kids Programme</div>
       <div class="home-sub" id="kids-head-sub">Family &amp; Friends — online tests, plus a printable paper copy with a built-in exam report.</div>
@@ -1170,6 +1225,7 @@ select.field-input { cursor: pointer; }
               <select class="field-input" id="new-test-type">
                 <option value="mid">Mid-Course</option>
                 <option value="final">Final</option>
+                <option value="retake">Retake</option>
               </select>
             </div>
           </div>
@@ -1511,7 +1567,7 @@ function selectTest(testId) {
   state.studentAnswers = {};
   state.currentSectionIdx = 0;
 
-  const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : 'Mock Test';
+  const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : test.type === 'retake' ? 'Retake Test' : 'Mock Test';
   const badgeCls = test.type === 'mid' ? 'badge-orange' : test.type === 'final' ? 'badge-blue' : 'badge-mock';
   document.getElementById('entry-badge').innerHTML = `<span class="badge ${badgeCls}">${typeLabel}</span>` +
     (test.verified ? ` <span class="sv-badge sv-badge-lg" title="Written by Sevenine for this coursebook">&#10003; Sevenine Verified</span>` : '');
@@ -2426,7 +2482,7 @@ async function openMyResults(){
       const pending = a.status==='submitted';
       const scoreStr = pending ? '<span class="sb-badge sb-amber">Awaiting grading</span>'
         : ((a.total_score!=null && a.max_score) ? '<strong>'+a.total_score+' / '+a.max_score+'</strong>'+(pct!=null?' ('+pct+'%)':'') : '—');
-      const typeLabel = a.test_type==='mid'?'Mid-Course':a.test_type==='final'?'Final':'Mock';
+      const typeLabel = a.test_type==='mid'?'Mid-Course':a.test_type==='final'?'Final':a.test_type==='retake'?'Retake':'Mock';
       html+='<div class="hist-attempt">'+
         '<div class="hist-row" onclick="toggleMyResDetail(\''+a.id+'\')">'+
           '<div style="flex:1;"><strong>'+escapeHtml(a.test_title||a.test_id)+'</strong> <span class="sb-badge sb-grey">'+typeLabel+'</span>'+
@@ -3044,7 +3100,7 @@ async function cdRemove(sid){ await sb.rpc('admin_class_remove_member',{p_class_
 // ══════════════════════════════════════════
 async function renderOpenTest(){
   const el = document.getElementById('open-test-body');
-  const realTests = (DB.tests||[]).filter(t => t.type==='mid' || t.type==='final');
+  const realTests = (DB.tests||[]).filter(t => t.type==='mid' || t.type==='final' || t.type==='retake');
   const testOpts = realTests.map(t=>'<option value="'+t.id+'" data-level="'+(t.level||'')+'">'+escapeHtml(t.title)+' ('+(t.level||'')+')</option>').join('');
   el.innerHTML =
     '<div class="builder-card" style="max-width:680px;">'+
@@ -3148,7 +3204,7 @@ function renderAdminTests() {
   el.innerHTML = `<div class="test-grid">${tests.map(t => `
     <div class="test-card">
       <div class="test-card-top">
-        <span class="badge ${t.type==='mid'?'badge-orange':t.type==='final'?'badge-blue':'badge-mock'}">${t.type==='mid'?'Mid':t.type==='final'?'Final':'Mock'}</span>
+        <span class="badge ${t.type==='mid'?'badge-orange':t.type==='final'?'badge-blue':t.type==='retake'?'badge-red':'badge-mock'}">${t.type==='mid'?'Mid':t.type==='final'?'Final':t.type==='retake'?'Retake':'Mock'}</span>
         <button class="btn btn-red btn-xs" onclick="deleteTest('${t.id}')" title="Delete test">✕</button>
       </div>
       <div class="test-card-title">${t.title}</div>
@@ -3683,7 +3739,7 @@ function buildTestPaper(id, withAnswers) {
   const esc = s => (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const letters = ['a','b','c','d','e','f','g','h'];
   const levelLabel = test.level;
-  const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : 'Mock Test';
+  const typeLabel = test.type === 'mid' ? 'Mid-Course Test' : test.type === 'final' ? 'Final Test' : test.type === 'retake' ? 'Retake Test' : 'Mock Test';
 
   let body = '';
   const sorted = (test.sections||[]).slice().sort((a,b)=>a.position-b.position);
@@ -4484,48 +4540,15 @@ function studentLockedLid(lid){
 // School-wide pass mark (matches the ≥70% = green convention used in results).
 const PASS_PCT = 70;
 
-// The info list shown on the FRONT of a level card — real durations, marks, pass mark, mock count.
-function levelFrontInfo(tests, locked, code){
-  const row=(ic,label,val)=>'<div class="lvl-info-row"><span class="lvl-info-ic">'+ic+'</span>'+
-    '<span class="lvl-info-txt">'+label+'</span><span class="lvl-info-val">'+val+'</span></div>';
-  if(locked) return '<div class="lvl-front-note">🔒 Only '+code+' students can open this level.<br>Contact the school to change levels.</div>';
-  const ready=t=>t&&t.totalPoints>0;
-  const mins=t=>t.timerMinutes?t.timerMinutes+' min':'—';
-  const mid=tests.find(t=>t.type==='mid'&&ready(t));
-  const fin=tests.find(t=>t.type==='final'&&ready(t));
-  const mocks=tests.filter(t=>t.type==='mock'&&ready(t));
-  if(!mid&&!fin&&!mocks.length) return '<div class="lvl-front-note">Tests for this level are being prepared.<br>Check back soon.</div>';
-  let rows='';
-  if(mid&&fin){
-    rows+=row('⏱','Mid-course', mins(mid)+' · '+mid.totalPoints+' marks');
-    rows+=row('🏁','Final exam', mins(fin)+' · '+fin.totalPoints+' marks');
-    rows+=row('🎯','Pass mark', PASS_PCT+'%');
-    rows+=row('📚','Mock tests', mocks.length? mocks.length+' to practise':'None yet');
-  } else if(mid||fin){
-    const t=fin||mid;
-    rows+=row('⏱', fin?'Final exam':'Mid-course test', mins(t));
-    rows+=row('💯','Total marks', t.totalPoints+' marks');
-    rows+=row('🎯','Pass mark', PASS_PCT+'% ('+Math.ceil(PASS_PCT/100*t.totalPoints)+'/'+t.totalPoints+')');
-    rows+=row('📚','Mock tests', mocks.length? mocks.length+' to practise':'None yet');
-  } else {
-    const mt=mocks[0];
-    rows+=row('⏱','Mock test', mins(mt)+' · '+mt.totalPoints+' marks');
-    rows+=row('🎯','Aim for', PASS_PCT+'%+');
-    rows+=row('📚','Practice tests', String(mocks.length));
-    rows+=row('📝','Official tests','Coming soon');
-  }
-  return '<div class="lvl-info">'+rows+'</div>';
-}
-
 function renderHome() {
   const titleEl=document.getElementById('home-title'), subEl=document.getElementById('home-sub');
   if(titleEl && subEl){
     if(CURRENT.role==='student'){
       titleEl.textContent='Your tests';
-      subEl.textContent='Flip your level card to start a mock or official test.';
+      subEl.textContent='Practise with mock tests any time. Official tests open when your teacher starts them.';
     } else {
       titleEl.textContent='Choose a level';
-      subEl.textContent='Flip a card to view its mock and official tests, or download a printable paper copy.';
+      subEl.textContent='Open a card to see its practice, official and retake tests, preview them, or download a printable copy.';
     }
   }
   const wrap=document.getElementById('level-cards');
@@ -4533,7 +4556,21 @@ function renderHome() {
   const kidsStudent = CURRENT.role==='student' && kidsLevelOf(STUDENT_ACCESS.pageId);
   const geHead=document.getElementById('ge-head');
   if(geHead) geHead.style.display = kidsStudent ? 'none' : '';
-  if(wrap) wrap.innerHTML = kidsStudent ? '' : ['a1','a2','b1','b1plus','b2'].map(levelCardHtml).join('');
+  const lids=['a1','a2','b1','b1plus','b2'];
+  // A student sees their own level as one featured card; the other levels shrink to locked chips.
+  const mine = (CURRENT.role==='student' && !kidsStudent && LEVEL_META[STUDENT_ACCESS.pageId]) ? STUDENT_ACCESS.pageId : null;
+  if(wrap){
+    wrap.classList.toggle('solo', !!mine);
+    wrap.innerHTML = kidsStudent ? '' : (mine ? levelCardHtml(mine) + myProgressPanel(mine) : lids.map(levelCardHtml).join(''));
+  }
+  const others=document.getElementById('other-levels');
+  if(others){
+    others.style.display = mine ? 'flex' : 'none';
+    others.innerHTML = mine ? '<span class="other-levels-label">Other levels</span>'+lids.filter(l=>l!==mine).map(l=>{
+      const m=LEVEL_META[l];
+      return '<span class="lvl-chip-locked" style="--c:'+m.color+';--l:'+m.light+';" title="Only '+m.code+' students can open this level. Contact the school to change levels."><b>'+m.code+'</b>'+m.label+HOME_ICON.lock+'</span>';
+    }).join('') : '';
+  }
   // Re-apply any flipped state (e.g. after a re-render)
   Object.keys(HOME_OPEN).forEach(lid=>{
     const card=document.getElementById('lvlcard-'+lid);
@@ -4577,25 +4614,41 @@ function kidsCardHtml(lv){
                     : ['🎧','Listening','Read out by your teacher']);
   info.push(['📝','Mid-Term', has(t.mid) ? (t.mid.marks+' marks · '+t.mid.time) : 'Coming soon']);
   info.push(['🏁','Final', has(t.final) ? (t.final.marks+' marks · '+t.final.time) : 'Coming soon']);
-  const infoRows=info.map(r=>'<div class="lvl-info-row"><span class="lvl-info-ic">'+r[0]+'</span><span class="lvl-info-txt">'+r[1]+'</span><span class="lvl-info-val">'+r[2]+'</span></div>').join('');
+  const stat=(v,l)=>'<div class="lvl-stat"><b>'+v+'</b><span>'+l+'</span></div>';
   const front=
     '<div class="lvl-face lvl-front">'+
-      '<div class="lvl-card-head"><span class="lvl-badge">L'+lv+'</span>'+
-        '<div class="lvl-titles"><div class="lvl-name">'+t.label+'</div><div class="lvl-meta">'+t.course+'</div></div></div>'+
-      '<div class="lvl-info">'+infoRows+'</div>'+
-      '<div class="lvl-card-btns">'+
-        '<button class="lvl-tab" onclick="flipKids(\''+lv+'\',\'mid\')">📝 Mid-Term</button>'+
-        '<button class="lvl-tab" onclick="flipKids(\''+lv+'\',\'final\')">🏁 Final</button>'+
+      '<div class="lvl-hero">'+
+        '<div class="lvl-hero-top"><span class="lvl-kicker">Kids Programme</span></div>'+
+        '<div class="lvl-code">L'+lv+'</div>'+
+        '<div class="lvl-name">'+t.label+'</div>'+
+        '<div class="lvl-course">'+t.course+'</div>'+
+        '<div class="lvl-watermark" aria-hidden="true">'+lv+'</div>'+
+      '</div>'+
+      '<div class="lvl-body">'+
+        '<div class="lvl-stats">'+
+          stat(has(t.mid)?t.mid.marks:'—','Mid-term')+
+          stat(has(t.final)?t.final.marks:'—','Final')+
+          stat('Auto','Marking')+
+        '</div>'+
+        '<div class="lvl-mix">'+
+          (isStaff ? '<span><i style="background:#AF52DE"></i>Printable copy + exam report</span>'
+                   : '<span><i style="background:#AF52DE"></i>Listening read out in class</span>')+
+          '<span><i style="background:#FF9500"></i>Speaking with teacher</span>'+
+        '</div>'+
+        '<div class="lvl-card-btns">'+
+          '<button class="lvl-tab primary" onclick="flipKids(\''+lv+'\',\'mid\')">'+HOME_ICON.clip+' Mid-Term</button>'+
+          '<button class="lvl-tab" onclick="flipKids(\''+lv+'\',\'final\')">'+HOME_ICON.flag+' Final</button>'+
+        '</div>'+
       '</div>'+
     '</div>';
   const back=
     '<div class="lvl-face lvl-back">'+
       '<div class="lvl-back-head"><span class="lvl-badge">L'+lv+'</span>'+
         '<div class="lvl-back-title"><div class="lvl-back-name">'+t.label+'</div><div class="lvl-back-sub">Tests</div></div>'+
-        '<button class="lvl-flip-back" title="Back to card" onclick="unflipKids(\''+lv+'\')">&#8617;</button></div>'+
+        '<button class="lvl-flip-back" title="Back to card" aria-label="Back to card" onclick="unflipKids(\''+lv+'\')">'+HOME_ICON.back+'</button></div>'+
       '<div class="lvl-back-tabs">'+
-        '<button class="lvl-back-tab" data-mode="mid" onclick="flipKids(\''+lv+'\',\'mid\')">📝 Mid-Term</button>'+
-        '<button class="lvl-back-tab" data-mode="final" onclick="flipKids(\''+lv+'\',\'final\')">🏁 Final</button>'+
+        '<button class="lvl-back-tab" data-mode="mid" onclick="flipKids(\''+lv+'\',\'mid\')">Mid-Term</button>'+
+        '<button class="lvl-back-tab" data-mode="final" onclick="flipKids(\''+lv+'\',\'final\')">Final</button>'+
       '</div>'+
       '<div class="lvl-back-list"></div>'+
     '</div>';
@@ -4655,28 +4708,80 @@ function unflipKids(lv){
   if(card) card.classList.remove('flipped');
 }
 
-// One level card: a fixed-size flip card. Front = identity + buttons; back = its tests.
+// ── Home card helpers (2026-09 redesign) ──
+const HOME_ICON = {
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+  clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>',
+  redo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-4"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>',
+  file:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>',
+};
+const HOME_TYPE = { mock:['Mock','#AF52DE','book'], mid:['Mid-course','#FF9500','clip'], final:['Final','#007AFF','flag'], retake:['Retake','#FF3B30','redo'] };
+const LEVEL_COURSE = { a1:'Navigate A1 · Units 1–10', a2:'Navigate A2 · Units 1–12', b1:'Navigate B1 · Units 1–12', b1plus:'Navigate B1+ · Units 1–12', b2:'Navigate B2 · Units 1–12' };
+
+// "B1 Mock Test — Mid-Course Practice (Navigate Units 1-6)" → {name:"Mid-Course Practice", units:"Units 1–6"}
+function shortTestName(t){
+  let s = String(t.title||'');
+  let units = '';
+  const m = s.match(/\((?:Navigate\s+)?Units?\s*([\d]+)\s*[-–]\s*([\d]+)\)/i);
+  if(m){ units = 'Units '+m[1]+'–'+m[2]; s = s.replace(m[0],''); }
+  s = s.replace(/\((Family & Friends \d)\)/,'').trim();
+  s = s.replace(/^(A1|A2|B1\+|B1|B2|C1)\s+/i,'').replace(/^Level \d\s+/i,'');
+  if(/^Mock Test\s*[—-]\s*/i.test(s)) s = s.replace(/^Mock Test\s*[—-]\s*/i,'');
+  return { name: s.trim() || t.title, units };
+}
+
+function homeTestsOf(lid){ return DB.tests.filter(t=>levelToPageId(t.level||'')===lid); }
+
+// Body of the front: three numbers + the mix of test types.
+function levelFrontBody(tests, locked, code){
+  if(locked) return '<div class="lvl-front-note">Only '+code+' students can open this level.<br>Contact the school to change levels.</div>';
+  const ready = tests.filter(t=>t.totalPoints>0);
+  if(!ready.length) return '<div class="lvl-front-note">Tests for this level are being prepared.<br>Check back soon.</div>';
+  const exam = ready.find(t=>t.type==='final') || ready.find(t=>t.type==='mid') || ready[0];
+  const stats =
+    '<div class="lvl-stats">'+
+      '<div class="lvl-stat"><b>'+ready.length+'</b><span>'+(ready.length===1?'Test':'Tests')+'</span></div>'+
+      '<div class="lvl-stat"><b>'+(exam.timerMinutes||60)+'</b><span>Min exam</span></div>'+
+      '<div class="lvl-stat"><b>'+PASS_PCT+'%</b><span>To pass</span></div>'+
+    '</div>';
+  const groups = [['mock','practice','#AF52DE'],['mid|final','official','#007AFF'],['retake',null,'#FF3B30']];
+  const mix = groups.map(([tys,label,col])=>{
+    const n = ready.filter(t=>tys.split('|').includes(t.type)).length; if(!n) return '';
+    return '<span><i style="background:'+col+'"></i>'+n+' '+(label||(n===1?'retake':'retakes'))+'</span>';
+  }).join('');
+  return stats + '<div class="lvl-mix">'+mix+'</div>';
+}
+
+// One level card: a fixed-size flip card. Front = identity + numbers + buttons; back = its tests.
 function levelCardHtml(lid){
   const m=LEVEL_META[lid]; if(!m) return '';
   const locked=studentLockedLid(lid);
-  const tests=DB.tests.filter(t=>levelToPageId(t.level||'')===lid);
-  const nMock=tests.filter(t=>t.type==='mock').length;
-  const nOff=tests.filter(t=>t.type==='mid'||t.type==='final').length;
-  let meta;
-  if(locked) meta='🔒 Available to '+m.code+' students';
-  else if(!tests.length) meta='No tests yet';
-  else meta=nMock+' mock &middot; '+nOff+' official';
+  const tests=homeTestsOf(lid);
+  const allVerified = tests.length && tests.every(t=>t.verified);
   const front=
     '<div class="lvl-face lvl-front">'+
-      '<div class="lvl-card-head">'+
-        '<span class="lvl-badge">'+m.code+'</span>'+
-        '<div class="lvl-titles"><div class="lvl-name">'+m.label+'</div><div class="lvl-meta">'+meta+'</div></div>'+
-        (locked?'<span class="lvl-lock">🔒</span>':'')+
+      '<div class="lvl-hero">'+
+        '<div class="lvl-hero-top"><span class="lvl-kicker">Level '+m.code+'</span>'+
+          (locked ? '<span class="lvl-verified">'+HOME_ICON.lock+' Locked</span>'
+                  : (allVerified ? '<span class="lvl-verified">'+HOME_ICON.check+' Sevenine Verified</span>' : ''))+
+        '</div>'+
+        '<div class="lvl-code">'+m.code+'</div>'+
+        '<div class="lvl-name">'+m.label+'</div>'+
+        '<div class="lvl-course">'+(LEVEL_COURSE[lid]||'')+'</div>'+
+        '<div class="lvl-watermark" aria-hidden="true">'+m.code+'</div>'+
       '</div>'+
-      levelFrontInfo(tests, locked, m.code)+
-      '<div class="lvl-card-btns">'+
-        '<button class="lvl-tab" onclick="flipCard(\''+lid+'\',\'mock\')">📚 Mock Tests</button>'+
-        '<button class="lvl-tab" onclick="flipCard(\''+lid+'\',\'official\')">📝 Official Tests</button>'+
+      '<div class="lvl-body">'+
+        levelFrontBody(tests, locked, m.code)+
+        '<div class="lvl-card-btns">'+
+          '<button class="lvl-tab primary" onclick="flipCard(\''+lid+'\',\'mock\')">'+HOME_ICON.book+' Practice</button>'+
+          '<button class="lvl-tab" onclick="flipCard(\''+lid+'\',\'official\')">'+HOME_ICON.clip+' Official</button>'+
+          '<button class="lvl-tab" onclick="flipCard(\''+lid+'\',\'retake\')">'+HOME_ICON.redo+' Retake</button>'+
+        '</div>'+
       '</div>'+
     '</div>';
   const back=
@@ -4684,11 +4789,12 @@ function levelCardHtml(lid){
       '<div class="lvl-back-head">'+
         '<span class="lvl-badge">'+m.code+'</span>'+
         '<div class="lvl-back-title"><div class="lvl-back-name">'+m.label+'</div><div class="lvl-back-sub">Tests</div></div>'+
-        '<button class="lvl-flip-back" title="Back to card" onclick="unflipCard(\''+lid+'\')">&#8617;</button>'+
+        '<button class="lvl-flip-back" title="Back to card" aria-label="Back to card" onclick="unflipCard(\''+lid+'\')">'+HOME_ICON.back+'</button>'+
       '</div>'+
       '<div class="lvl-back-tabs">'+
-        '<button class="lvl-back-tab" data-mode="mock" onclick="flipSwitch(\''+lid+'\',\'mock\')">📚 Mock</button>'+
-        '<button class="lvl-back-tab" data-mode="official" onclick="flipSwitch(\''+lid+'\',\'official\')">📝 Official</button>'+
+        '<button class="lvl-back-tab" data-mode="mock" onclick="flipSwitch(\''+lid+'\',\'mock\')">Practice</button>'+
+        '<button class="lvl-back-tab" data-mode="official" onclick="flipSwitch(\''+lid+'\',\'official\')">Official</button>'+
+        '<button class="lvl-back-tab" data-mode="retake" onclick="flipSwitch(\''+lid+'\',\'retake\')">Retake</button>'+
       '</div>'+
       '<div class="lvl-back-list"></div>'+
     '</div>';
@@ -4697,23 +4803,25 @@ function levelCardHtml(lid){
     '</div>';
 }
 
-// One compact test row on the back of a card.
+// One test row on the back of a card.
 function flipTestRow(t){
-  const tag = t.type==='mock' ? ['Mock','#AF52DE'] : t.type==='mid' ? ['Mid-Course','#FF9500'] : ['Final','#007AFF'];
+  const T = HOME_TYPE[t.type] || HOME_TYPE.final;
   const mins = t.timerMinutes||60;
   const isStaff = CURRENT.role==='admin' || CURRENT.role==='owner';
   const empty = !t.totalPoints;
-  return '<div class="flip-row">'+
+  const sn = shortTestName(t);
+  const meta = [sn.units, empty ? 'Coming soon' : t.totalPoints+' pts · '+mins+' min'].filter(Boolean).join(' · ');
+  return '<div class="flip-row" title="'+escapeHtml(t.title)+'">'+
+    '<span class="flip-row-dot" style="background:'+T[1]+'17;color:'+T[1]+';">'+HOME_ICON[T[2]]+'</span>'+
     '<div class="flip-row-main">'+
-      '<div class="flip-row-title">'+escapeHtml(t.title)+'</div>'+
-      '<div class="flip-row-meta"><span class="flip-row-tag" style="background:'+tag[1]+'1f;color:'+tag[1]+';">'+tag[0]+'</span>'+
-        (t.verified?'<span class="sv-badge">&#10003; Sevenine Verified</span>':'')+
-        (t.myOpen?'<span class="state-tag inprog">&#9203; In progress &mdash; answers saved</span>':'')+
+      '<div class="flip-row-title">'+escapeHtml(sn.name)+'</div>'+
+      '<div class="flip-row-meta">'+
+        (t.myOpen?'<span class="state-tag inprog">&#9203; In progress</span>':'')+
         (t.myDone?'<span class="state-tag donetag">&#10003; Finished</span>':'')+
-        '<span>'+(empty?'Coming soon':t.totalPoints+' pts &middot; '+mins+' min')+'</span></div>'+
+        '<span>'+meta+'</span></div>'+
     '</div>'+
     (empty?'':'<div class="flip-row-actions">'+
-      (isStaff?'<button class="flip-btn pdf" title="Download printable paper test" onclick="event.stopPropagation();downloadTestPDF(\''+t.id+'\')">&#128196;</button>':'')+
+      (isStaff?'<button class="flip-btn pdf" title="Download printable paper test" aria-label="Download printable paper test" onclick="event.stopPropagation();downloadTestPDF(\''+t.id+'\')">'+HOME_ICON.file+'</button>':'')+
       (t.myDone && !isStaff
         ? '<button class="flip-btn done" disabled title="You have already finished this test">&#10003; Done</button>'
         : '<button class="flip-btn start'+(t.myOpen?' resume':'')+'" title="'+(isStaff?'Preview only - not saved':(t.myOpen?'Your answers are saved - pick up where you left off':'Start the test'))+'" onclick="selectTest(\''+t.id+'\')">'+
@@ -4722,27 +4830,61 @@ function flipTestRow(t){
   '</div>';
 }
 
-// Fill the back of a card with the mock list, or the Mid-Course + Final list.
+// Student home: a "Your progress" panel next to their own level card.
+function myProgressPanel(lid){
+  const m = LEVEL_META[lid]||{};
+  const tests = homeTestsOf(lid).filter(t=>t.totalPoints>0);
+  const mocks = tests.filter(t=>t.type==='mock');
+  const done = mocks.filter(t=>t.myDone).length;
+  const open = tests.filter(t=>t.type!=='mock');
+  const openNow = open.filter(t=>!t.myDone);
+  const pct = mocks.length ? Math.round(done/mocks.length*100) : 0;
+  const row=(ic,col,title,sub,val)=>'<div class="my-row"><span class="my-ic" style="background:'+col+'17;color:'+col+';">'+HOME_ICON[ic]+'</span>'+
+    '<div class="my-txt"><b>'+title+'</b><span>'+sub+'</span></div>'+(val?'<span class="my-val">'+val+'</span>':'')+'</div>';
+  return '<div class="my-panel" style="--accent:'+(m.color||'#007AFF')+';">'+
+    '<h3>Your progress</h3><div class="my-sub">'+(m.code||'')+' '+(m.label||'')+' · '+(LEVEL_COURSE[lid]||'')+'</div>'+
+    row('book','#AF52DE','Practice tests', done+' of '+mocks.length+' finished', pct+'%')+
+    '<div class="my-progress"><div style="width:'+pct+'%"></div></div>'+
+    row('clip','#007AFF','Official tests', openNow.length ? openNow.length+' open for you now' : 'Your teacher opens these in class', openNow.length ? String(openNow.length) : '—')+
+    row('flag','#34C759','Pass mark', 'Needed on official tests', PASS_PCT+'%')+
+    '<div class="my-actions">'+
+      '<button class="lvl-tab primary" style="flex:0 0 auto;padding:12px 18px;" onclick="flipCard(\''+lid+'\',\'mock\')">'+HOME_ICON.book+' Start practising</button>'+
+      '<button class="lvl-tab" style="flex:0 0 auto;padding:12px 18px;" onclick="openMyResults()">'+HOME_ICON.info+' My results</button>'+
+    '</div>'+
+  '</div>';
+}
+
+// Fill the back of a card with one set: practice (mocks), official (mid-course + final) or retakes.
 function renderFlipBack(lid, mode){
   const card=document.getElementById('lvlcard-'+lid); if(!card) return;
   const sub=card.querySelector('.lvl-back-sub');
   const list=card.querySelector('.lvl-back-list');
   card.querySelectorAll('.lvl-back-tab').forEach(t=>t.classList.toggle('active', t.dataset.mode===mode));
-  const tests=DB.tests.filter(t=>levelToPageId(t.level||'')===lid);
-  let rows, note='';
+  const tests=homeTestsOf(lid);
+  const note = txt => '<div class="lvl-back-note">'+HOME_ICON.info+'<span>'+txt+'</span></div>';
+  let html='';
   if(mode==='mock'){
-    if(sub) sub.textContent='Mock Tests';
+    if(sub) sub.textContent='Practice tests · not assessed';
     const arr=tests.filter(t=>t.type==='mock');
-    rows = arr.length ? arr.map(flipTestRow).join('') : '<div class="lvl-back-empty">No mock tests yet.</div>';
+    html = arr.length ? arr.map(flipTestRow).join('') : '<div class="lvl-back-empty">No practice tests yet.</div>';
+  } else if(mode==='retake'){
+    if(sub) sub.textContent='Retakes · for a failed official test';
+    const student = CURRENT.role==='student';
+    const arr = tests.filter(t=>t.type==='retake');
+    html = note(student ? 'A retake appears here only if your teacher opens one for you.'
+                        : 'For students who did not pass the mid-course or final test. Open one from the Admin Panel.');
+    html += arr.length ? arr.map(flipTestRow).join('')
+      : '<div class="lvl-back-empty">'+(student ? 'No retake is open for you.' : 'No retakes yet.')+'</div>';
   } else {
-    if(sub) sub.textContent='Official Tests';
-    note = '<div class="lvl-back-note">'+(CURRENT.role==='student'
-      ? '⚠️ Shown only when your teacher opens them.'
-      : '⚠️ Assessed — students see these only during a granted window.')+'</div>';
-    const arr=tests.filter(t=>t.type==='mid').concat(tests.filter(t=>t.type==='final'));
-    rows = arr.length ? arr.map(flipTestRow).join('') : '<div class="lvl-back-empty">No official tests yet.</div>';
+    if(sub) sub.textContent='Official tests · assessed';
+    const student = CURRENT.role==='student';
+    const main = tests.filter(t=>t.type==='mid').concat(tests.filter(t=>t.type==='final'));
+    html = note(student ? 'These appear only when your teacher opens them for your class.'
+                        : 'Students see these only during a window you grant from the Admin Panel.');
+    html += main.length ? main.map(flipTestRow).join('')
+      : '<div class="lvl-back-empty">'+(student ? 'Your teacher will open the next test<br>when it is time.' : 'No official tests yet.')+'</div>';
   }
-  if(list) list.innerHTML = note + rows;
+  if(list) list.innerHTML = html;
 }
 
 // Flip a card to its back, showing the chosen set. Students can't open other levels.
@@ -4758,7 +4900,7 @@ function flipCard(lid, mode){
   if(card) card.classList.add('flipped');
 }
 
-// Switch mock/official on the back without flipping the card over.
+// Switch practice/official/retake on the back without flipping the card over.
 function flipSwitch(lid, mode){
   HOME_OPEN[lid]=mode;
   renderFlipBack(lid, mode);
