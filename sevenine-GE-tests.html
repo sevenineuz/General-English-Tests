@@ -4696,7 +4696,23 @@ function renderKidsBack(lv, which){
         (rt && rt.doc ? paperRow(rt, t.label+' · '+base+' retake', 'RETAKE', 'background:#FF95001f;color:#FF9500;') : '');
     }
   }
+  html += kidsGuideRow(lv, which);
   list.innerHTML = html || '<div class="lvl-back-empty">This test is being prepared.<br>Check back soon.</div>';
+}
+
+// Preparation guide for parents (2-page PDF, EN/RU/UZ) on the student handbook site.
+function kidsGuideRow(lv, which){
+  if(!/^[1-4]$/.test(String(lv))) return '';
+  const kind = which==='mid' ? 'Mid-Term' : 'Final';
+  return '<div class="lvl-back-group">Preparation guide</div>'+
+    '<div class="flip-row">'+
+      '<span class="flip-row-dot" style="background:#34C75917;color:#34C759;">'+HOME_ICON.file+'</span>'+
+      '<div class="flip-row-main"><div class="flip-row-title">'+kind+' Test guide</div>'+
+        '<div class="flip-row-meta"><span>'+(which==='mid'?'Starter – Unit 7':'Starter – Unit 15')+' · for parents</span></div></div>'+
+      '<div class="flip-row-actions">'+['EN','RU','UZ'].map(l =>
+        '<a class="flip-btn pdf prep-lang" target="_blank" rel="noopener" title="Download the '+kind+' preparation guide ('+l+')" '+
+        'href="'+PREP_GUIDE_BASE+'Sevenine_Kids-L'+lv+'_'+kind+'_Prep_'+l+'.pdf">'+l+'</a>').join('')+'</div>'+
+    '</div>';
 }
 
 function flipKids(lv, which){
