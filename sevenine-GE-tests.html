@@ -952,6 +952,7 @@ select.field-input { cursor: pointer; }
 .flip-btn.start{background:var(--accent,#007AFF);color:#fff;}
 .flip-btn.pdf{background:var(--light,#eef);color:var(--accent,#007AFF);padding:8px 10px;}
 .flip-btn.pdf svg{width:14px;height:14px;}
+.flip-btn.prep-lang{text-decoration:none;font-size:11px;padding:7px 8px;letter-spacing:.02em;}
 @media (prefers-reduced-motion: reduce){.lvl-flip-inner,.lvl-face{transition:none;}}
 @media(max-width:520px){.home-wrap{padding:24px 16px 36px;}.level-cards,.level-cards.solo{grid-template-columns:1fr;}.my-panel{padding:22px 20px;}.home-title{font-size:28px;}.lvl-flip{height:420px;}.lvl-code{font-size:48px;}}
 </style>
@@ -4858,6 +4859,26 @@ function myProgressPanel(lid){
   '</div>';
 }
 
+// Exam preparation guides (2-page PDFs, EN/RU/UZ) hosted on the student handbook site.
+// Adult levels only; rebuilt from ~/Desktop/sevenine-prep-papers when a test's structure changes.
+const PREP_GUIDE_BASE = 'https://sevenineuz.github.io/student-handbook/files/prep/';
+const PREP_GUIDE_UNITS = {a1:['1–5','6–10'], a2:['1–6','7–12'], b1:['1–6','7–12'], b1plus:['1–6','7–12'], b2:['1–6','7–12']};
+function prepGuideRows(lid){
+  const u = PREP_GUIDE_UNITS[lid]; if(!u) return '';
+  const code = (LEVEL_META[lid].code||'').replace('+','plus');
+  const row = (kind, label, units) =>
+    '<div class="flip-row">'+
+      '<span class="flip-row-dot" style="background:#34C75917;color:#34C759;">'+HOME_ICON.file+'</span>'+
+      '<div class="flip-row-main"><div class="flip-row-title">'+label+' guide</div>'+
+        '<div class="flip-row-meta"><span>Units '+units+' · 2-page PDF</span></div></div>'+
+      '<div class="flip-row-actions">'+['EN','RU','UZ'].map(l =>
+        '<a class="flip-btn pdf prep-lang" target="_blank" rel="noopener" title="Download the '+label+' preparation guide ('+l+')" '+
+        'href="'+PREP_GUIDE_BASE+'Sevenine_'+code+'_'+kind+'_Prep_'+l+'.pdf">'+l+'</a>').join('')+'</div>'+
+    '</div>';
+  return '<div class="lvl-back-group">Preparation guides</div>'+
+    row('Mid-Course','Mid-Course Test', u[0])+row('Final','Final Test', u[1]);
+}
+
 // Fill the back of a card with one set: practice (mocks), official (mid-course + final) or retakes.
 function renderFlipBack(lid, mode){
   const card=document.getElementById('lvlcard-'+lid); if(!card) return;
@@ -4871,6 +4892,7 @@ function renderFlipBack(lid, mode){
     if(sub) sub.textContent='Practice tests · not assessed';
     const arr=tests.filter(t=>t.type==='mock');
     html = arr.length ? arr.map(flipTestRow).join('') : '<div class="lvl-back-empty">No practice tests yet.</div>';
+    html += prepGuideRows(lid);
   } else if(mode==='retake'){
     if(sub) sub.textContent='Retakes · for a failed official test';
     const student = CURRENT.role==='student';
